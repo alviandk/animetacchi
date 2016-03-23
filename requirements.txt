@@ -1,0 +1,54 @@
+django==1.5.1
+django-cms
+South==0.8.4
+django-haystack==1.2.6
+whoosh==2.3.2
+psycopg2
+django-compressor==1.0.1
+#pil==1.1.7
+pisa==3.0.33
+reportlab==2.5
+django-piston==0.2.3
+flup
+django-qrcode==0.3
+#https://nodeload.github.com/tomscytale/django-sekizai/zipball/master
+#https://nodeload.github.com/tomscytale/django-cms/zipball/master
+cmsplugin-blog==1.1.1
+django-staticfiles==1.2.1
+#django-articles==2.4.1
+django-simple-captcha==0.3.4
+beautifulsoup==3.2.1
+djorm-ext-pgfulltext==0.10
+pycountry
+pygeoip
+whois
+simplejson==2.0.0
+restclient
+facebook-sdk
+six
+easy-thumbnails
+django-disqus
+django-responsive
+django-social-auth
+django-celery
+django-import-export
+django-wysiwyg
+django-easy-pdf
+django-generic-ratings==0.7
+django-vote==1.1.2
+git+https://github.com/chrisglass/xhtml2pdf.git
+
+#lxlml==2.3.4 #please use apt-get install libxml2-dev libxslt1-dev python-dev then apt-get install python-lxml
+
+# please install zbar lib using: sudo apt-get install libzbar-dev python-zbar libpq-dev
+
+#please install these before install pil and pillow
+# MUST pillow==2.1.0
+#sudo ln -s /usr/include/freetype2 /usr/local/include/freetype
+#sudo apt-get build-dep python-imaging
+#sudo apt-get install libjpeg62-dev
+#sudo apt-get install libjpeg62
+#sudo apt-get install libfreetype6-dev
+#sudo pip install pillow
+
+# in mac osx you should install manually jpeglib, freetype and imaging

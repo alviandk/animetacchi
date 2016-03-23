@@ -1,0 +1,47 @@
+						<ul class="navigation">                                
+                                
+                                <li {% if 'anime' in request.META.PATH_INFO %} class="current" {% endif %}>
+                                        <a href="{% url 'anime' %}">Anime</a>
+                                </li>
+                                <li{% if 'manga' in request.META.PATH_INFO %} class="current" {% endif %}>
+                                    <a href="{% url 'manga' %}">Manga</a>
+                                </li>                                
+                                <li class="dropdown" {% if 'chart' in request.META.PATH_INFO %} class="current" {% endif %}>
+									
+									<a href="#"  class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Chart</a>
+									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+										<li><a href="{% url 'anime_chart' season='winter' %}">Winter</a></li>
+										<li><a href="{% url 'anime_chart' season='spring' %}">Spring</a></li>
+										<li><a href="{% url 'anime_chart' season='summer' %}">Summer</a></li>
+										<li><a href="{% url 'anime_chart' season='fall' %}">Fall</a></li>
+									</ul>
+									
+                                    
+                                </li>                                
+                                
+                                <li>{% if request.user.is_authenticated %}
+										<div class="nav-toggler">
+											<a href="#" class='dropdown-toggle' aria-haspopup="true" data-toggle="dropdown"><img
+											src="{{MEDIA_URL}}MembersPicture/pic.png" width="27" height="27" alt=""></a>
+											<ul class="dropdown-menu pull-right">
+												<li>
+													<a href="{% url 'users' request.user.username %}">View profile</a>
+												</li>
+											<!--<li>
+													<a href="#">Account settings</a>
+												</li>-->
+												<li>
+													<a href="{% url 'logout' %}">Sign out</a>
+												</li>
+											</ul>
+										</div>
+									{% else %}
+									<li>
+										<a href="{% url 'signin' %}">Login</a>
+									</li>
+									<li>
+										<a href="{% url 'signup' %}">Sign up</a>
+									</li>
+									{% endif %}
+								</li>
+                            </ul>

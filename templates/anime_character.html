@@ -1,0 +1,164 @@
+{% extends 'anime_details.html' %}
+{% load ratings_tags %}
+{% block js %}
+<script>
+        
+        
+        function daikirai(character_id){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'daikirai' %}",
+                data: {
+                    'username': "{{request.user.username}}",
+                    'character_id': character_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#daikirai').hide();
+                    $('#daisuki').show();
+                    $.notify("Added to your daikirailist", "danger");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+		
+		function daisuki(character_id){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'daisuki' %}",
+                data: {
+                    'username': "{{request.user.username}}",
+                    'character_id': character_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#daisuki').hide();
+                    $('#daikirai').show();
+                    $.notify("Added to your daisukilist", "info");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+</script>
+
+{% endblock %}
+{% block body%}
+    <!--Main Slider-->
+           
+
+
+    <div class="sidebar-page" style="padding:130px 0px 134px;">
+        <div class="auto-container">
+            <div class="row clearfix" style="margin-top:-20px;">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="formAnimes">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <div class="panel-body">
+                                    <div class="col-md-4 col-sm-6 col-xs-12" style="margin:-5px 0 0 -20px;">
+                                        <!--Image-->
+                                        <figure class="image">
+                                            <a href="#" class="lightbox-image"
+                                               title="{{character.name}}"><img src="{{ MEDIA_URL }}{{character.picture}}" alt="" width="215" height="311" style="border-radius:5px;"></a>
+                                        </figure>
+                                    </div>
+									{% block character_detail %} 
+                                    <div class="col-md-8 col-sm-6 col-xs-12">
+                                        <!--Content-Column-->
+                                        <div class="cont-column">
+                                            <div class="inner-box">
+                                                <h3 class="anime-title"><a href="#">{{character.name}}</a></h3>
+												
+                                                <div class="item-cats subtitle">from <a href="{% url 'anime_details' character.anime.slug %}" >{{character.anime}}</a>
+                                                </div>
+                                                <div class="description anime-desc" >
+                                                    {{character.synopsys}}
+                                                </div>                                                
+                                                
+											{% if request.user.is_authenticated %}
+													{% get_rating_form for character as rating_form %}
+													<form id="rate-form">
+														{% csrf_token %}
+														{{ rating_form }}
+														
+													</form>
+													<div id="ratings-average">
+														{% get_rating_score for character as score %}
+														{% if score %}
+															Average ratings: {{ score.average|floatformat }}<br>
+															Number of votes: {{ score.num_votes }}<br>
+														{% else %}
+															How sad: nobody voted {{ film }}<br>
+														{% endif %}
+													</div>
+													
+													<div class="btn-group">													
+														<button {% if daisuki %} style="display:none;" {% endif %}  id="daisuki" class="btn btn-info" onclick="daisuki({{character.id}})" type="button">
+															Add to Daisukilist </button>
+													</div><!--btn-group-->
+													
+													<div id="daikirai" class="btn-group">													
+														<button {% if daikirai %} style="display:none;" {% endif %} class="btn btn-danger" onclick="daikirai({{character.id}})" type="button">
+															Add to Daikirailist </button>
+													</div><!--btn-group-->
+											{% endif %}
+												
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endblock %}                                
+                                </div>
+                            </section>
+                        </div>
+                    </div>                    
+                </div>               
+            </div>
+        </div>
+    </div>
+
+{% block ratings %}
+	<script type="text/javascript">
+        $(document).ready(function() {
+			$('#id_score').addClass('rating');
+			$('#id_score').attr('type', 'hidden');
+		});
+		
+		 $("#rate-form").click(function() {
+                rate();
+          });
+          
+          function rate(){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'ratings_vote' %}",
+                data: {
+					'honeypot': $('#id_honeypot').val(),
+					'security_hash': $('#id_security_hash').val(),
+					'timestamp': $('#id_timestamp').val(),
+					'key': $('#id_key').val(),
+					'object_pk': $('#id_object_pk').val(),
+					'content_type': $('#id_content_type').val(),
+					'score': $('#id_score').val(),
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+					$.get("{% url 'ratings_average' entity='character' id=character.id %}", function(data, status){
+						
+						$('#ratings-average').html(data)
+					});
+                    $.notify("Rated "+ status, "default");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+	</script>
+{% endblock %}    
+
+{% endblock %}
+

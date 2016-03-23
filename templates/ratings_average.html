@@ -1,0 +1,10 @@
+{% load ratings_tags %}
+
+{% get_rating_score for entities as score %}
+
+{% if score %}
+    Average ratings: {{ score.average|floatformat }}<br>
+    Number of votes: {{ score.num_votes }}<br>
+{% else %}
+    How sad: nobody voted {{ entities }}<br>
+{% endif %}

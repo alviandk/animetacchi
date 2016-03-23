@@ -1,0 +1,172 @@
+{% extends 'anime_details.html' %}
+{% load ratings_tags %}
+{% block js %}
+<script>
+        
+        		
+		function daisuki(voice_id){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'daisuki' %}",
+                data: {
+                    'username': "{{request.user.username}}",
+                    'voice_id': voice_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#daisuki').hide();                    
+                    $.notify("Added to your daisukilist", "info");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+</script>
+
+{% endblock %}
+
+{% block body%}
+    <!--Main Slider-->
+ 
+
+
+    <div class="sidebar-page">
+        <div class="auto-container">
+            <div class="row clearfix" style="margin-top:-20px;">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="formAnimes">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <div class="panel-body">
+                                    <div class="col-md-4 col-sm-6 col-xs-12" style="margin:-5px 0 0 -20px;">
+                                        <!--Image-->
+                                        <figure class="image">
+                                            <a href="#" class="lightbox-image"
+                                               title="{{voice.name}}">
+                                               
+													<img src="{{ MEDIA_URL }}{{voice.picture}}" alt="" width="215" height="311" style="border-radius:5px;">
+                                               
+                                            </a>
+                                        </figure>
+                                    </div>
+
+                                    <div class="col-md-8 col-sm-6 col-xs-12">
+                                        <!--Content-Column-->
+                                        <div class="cont-column">
+                                            <div class="inner-box">
+                                                <h3 class="anime-title"><a href="#">{{voice.name}}</a></h3>
+
+                                                
+                                                <div class="description anime-desc" >
+                                                    {{voice.synopsys}}
+                                                </div>
+                                                
+                                                
+												{% if request.user.is_authenticated %}
+												{% get_rating_form for voice as rating_form %}
+													<form id="rate-form">
+														{% csrf_token %}
+														{{ rating_form }}
+														
+													</form>
+													<div id="ratings-average">
+														{% get_rating_score for voice as score %}
+														{% if score %}
+															Average ratings: {{ score.average|floatformat }}<br>
+															Number of votes: {{ score.num_votes }}<br>
+														{% else %}
+															How sad: nobody voted {{ film }}<br>
+														{% endif %}
+													</div>
+												
+													<div class="btn-group">													
+														<button {% if daisuki %} style="display:none;" {% endif %}  id="daisuki" class="btn btn-info" onclick="daisuki({{voice.id}})" type="button">
+															Add to Daisukilist </button>
+													</div><!--btn-group-->
+												
+												{% endif %}
+												
+												
+												
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <div class="panel-body">
+									<div class="cont-column">
+										<div class="inner-box">
+											<h3>Character</h3><hr/>
+											<div class="row">
+											
+                                                {% for character in voice.character.all %}                                                													
+													<div class="col-md-4">
+														<a href ="{% url 'anime_character' slug=character.anime.slug id=character.id %}">
+														{{character.name}}</a>
+														{% if character.picture %}
+															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}{{character.picture}}" alt="">
+														{% else %}
+															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
+														{% endif %}														
+													</div>           
+													
+												{% endfor %}	 										
+											                                                                            
+                                        </div>
+                                     </div>
+                                 </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+
+
+	<script type="text/javascript">
+        $(document).ready(function() {
+			$('#id_score').addClass('rating');
+			$('#id_score').attr('type', 'hidden');
+		});
+		
+		 $("#rate-form").click(function() {
+                rate();
+          });
+          
+          function rate(){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'ratings_vote' %}",
+                data: {
+					'honeypot': $('#id_honeypot').val(),
+					'security_hash': $('#id_security_hash').val(),
+					'timestamp': $('#id_timestamp').val(),
+					'key': $('#id_key').val(),
+					'object_pk': $('#id_object_pk').val(),
+					'content_type': $('#id_content_type').val(),
+					'score': $('#id_score').val(),
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+					$.get("{% url 'ratings_average' entity='voice' id=voice.id %}", function(data, status){
+						
+						$('#ratings-average').html(data)
+					});
+                    $.notify("Rated "+ status, "default");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+	</script>    
+
+{% endblock %}

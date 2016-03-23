@@ -1,0 +1,32 @@
+                                   {% load ratings_tags %}
+											<thead> 												
+												<tr class="active"> 													
+													<th colspan="3">Hope</th> 
+													<th>{{hope.count}} Title</th> 
+												</tr> 
+											</thead> 
+											<tbody> 
+												{% for list in hope %}
+												<tr> 
+													<td class="col-md-6">{{list.readinglist}}</td> 
+													<td class="col-md-2"></td> 
+													<td class="col-md-2">
+                                                    {% get_rating_score for list.readinglist as score %}
+													{% if score %}
+														{{ score.average|floatformat }}													
+													{% else %}
+														nobody voted
+													{% endif %}
+                                                    </td> 
+													<td class="col-md-2">Manga</td> 
+												</tr>
+												{% empty %}
+												<tr> 
+													<td class="col-md-6">Nope</td> 
+													<td class="col-md-2"></td> 
+													<td class="col-md-2"></td> 
+													<td class="col-md-2"></td>  
+													 
+												</tr>
+												{% endfor %}  
+											</tbody> 

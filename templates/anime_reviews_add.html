@@ -1,0 +1,62 @@
+{% extends 'base_menu.html' %}
+
+{% block css %}
+
+    <link href="{{ MEDIA_URL }}css/style2.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-reset.css" rel="stylesheet">
+
+    <link href="{{ MEDIA_URL }}css/style-responsive.css" rel="stylesheet" />
+    <link href="{{ MEDIA_URL }}css/anime-style.css" rel="stylesheet" />
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+
+{% block body%}
+    <!--Main Slider-->
+    {% with anime_data as i %}
+        <section class="page-title anime-cover" style="background-image: url({{ MEDIA_URL }}{{i.a_cover}});">
+        </section>
+
+
+    <div class="sidebar-page">
+        <div class="auto-container">
+            <div class="row clearfix" style="margin-top:-20px;">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2">
+                    <section class="panel panel-default  post-comments">
+                        <div class="panel-heading">
+                            New Comments
+                            
+                        </div>
+                        
+                        <div class="media p15">
+                            
+							
+                            <div class="comment">
+                                
+                                
+                                <form method="POST">
+                                    <div class="form-group">
+										{% csrf_token %}
+                                        <textarea class="form-control" rows="9" placeholder="Write something..." name="comment"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">POST</button>
+                                </form>
+
+                                
+                                <hr>
+                        </div>
+                        
+                        
+                        
+                    </section>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% endwith %}
+
+{% endblock %}

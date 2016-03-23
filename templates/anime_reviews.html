@@ -1,0 +1,180 @@
+{% extends 'base_menu.html' %}
+
+{% block css %}
+
+    <link href="{{ MEDIA_URL }}css/style2.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-reset.css" rel="stylesheet">
+
+    <link href="{{ MEDIA_URL }}css/style-responsive.css" rel="stylesheet" />
+    <link href="{{ MEDIA_URL }}css/anime-style.css" rel="stylesheet" />
+
+{% endblock %}
+{% block js %}
+
+{% endblock %}
+
+{% block body%}
+    <!--Main Slider-->
+    {% with anime_data as i %}
+        <section class="page-title anime-cover" style="background-image: url({{ MEDIA_URL }}{{i.a_cover}});">
+        </section>
+
+
+    <div class="sidebar-page">
+        <div class="auto-container">
+            <div class="row clearfix" style="margin-top:-20px;">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2">
+                    <section id="panel-comments" class="panel panel-default  post-comments">
+                        <div class="panel-heading">
+                            Comments
+                            <a class="pull-right" href="{% url 'anime_details' slug=i.slug %}"> Back </a>
+                        </div>
+                        <br>                             
+                        <div class="input-group"> 
+							<input id="search-comment" type="text" class="form-control" placeholder="Search comments"> 
+							<span id="search-button" class="input-group-btn"> <button class="btn btn-default" type="button">
+								<span class="fa fa-search"></span></button> </span> 
+						</div>
+						<br>
+						<div class="btn-row">
+							<div class="btn-group">
+								<button id="sort-like" class="btn btn-info" type="button">Sort by likes</button>
+								<button id="sort-time" class="btn btn-white" type="button">Sort by time</button>
+							</div>
+						</div>   
+						
+                            
+                        <div id="all-comment">
+                        {% for review in commentanimes %}
+							<div class="media p15">
+								<a class="pull-left" href="{% url 'users' username=review.user.user.username %}">
+									{% if review.user.m_picture %}
+										<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}{{review.user.m_picture}}" alt="">
+									{% else %}
+										<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
+									{% endif %}
+								</a>
+								
+								<div class="comment">
+									<div class="comment-author h6 no-m">
+										<a href="{% url 'users' username=review.user.user.username %}"><b>{{review.user.user.username}}</b></a>
+									</div>
+									<div class="comment-meta small">{{review.added}}</div>
+									<p>
+										{{review.comment}}
+									</p>
+
+									<p class="small">
+										<a id="heart-{{review.id}}" class="mr10"><i class="fa fa-heart-o mr5"></i><span id="like-{{review.id}}">{{review.votes.count}} </span> Likes</a>										
+										<!--a href="#" id="heart-{{review.id}}" class="mr10 text-danger"-->
+									</p>
+									<script>
+											
+												$.get("{% url 'show_likes' entity='anime' id=review.id %}", function(data, status){						
+													
+													if (data.voted){
+														$('#heart-{{review.id}}').addClass('text-danger');											
+													}
+												});
+											
+										</script>
+									<hr>
+								 </div>
+							</div>
+                        {% endfor %}
+                        </div>
+                        
+                    </section>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    
+	<script type="text/javascript">
+		$("#panel-comments").on('click', 'a[id^=heart-]', function(){
+			var id = $(this).attr('id').split('-')[1];
+			$.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'likes' entity='anime' %}",
+                data: {					
+					'username': '{{request.user}}',
+					'id': id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){				
+					voted = response.voted 																
+                    $('#like-'+id).text(response.total_votes);
+                    if (voted){
+						$('#heart-'+id).addClass('text-danger');
+						$.notify("Liked", "info");
+					}
+					else{
+						$('#heart-'+id).removeClass('text-danger');
+						$.notify("Unliked", "default");
+					}
+                    
+                    setTimeout('RedirectUpdate()', 2000);
+                    
+                }
+            });
+			
+		});
+		
+		function sort_comment(by){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'sort_comment' %}",
+                data: {
+                    'by': by,
+                    'anime_id': {{i.id}},
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+					$('#all-comment').html(response);
+                }
+            });
+        }
+		
+		
+		 $("#sort-time").click(function() {
+               $('#sort-time').addClass('btn-info');
+               $('#sort-time').removeClass('btn-white');
+               $('#sort-like').addClass('btn-white');
+               $('#sort-like').removeClass('btn-info');
+               sort_comment('time');
+               
+          });
+          
+          $("#sort-like").click(function() {
+               $('#sort-like').addClass('btn-info');
+               $('#sort-like').removeClass('btn-white');
+               $('#sort-time').addClass('btn-white');
+               $('#sort-time').removeClass('btn-info');
+               sort_comment('likes');
+               
+          });
+          
+          $("#search-button").click(function() {
+               $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'search_comment' %}",
+                data: {
+                    'search': $("#search-comment").val(),
+                    'anime_id': {{i.id}},
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+					$('#all-comment').html(response);
+                }
+            });
+               
+          });
+	</script>
+    {% endwith %}
+
+{% endblock %}

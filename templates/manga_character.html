@@ -1,0 +1,128 @@
+{% extends 'anime_character.html' %}							
+{% load ratings_tags %}
+{% block js %}
+<script>
+        
+        
+        function daikirai(character_manga_id){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'daikirai' %}",
+                data: {
+                    'username': "{{request.user.username}}",
+                    'character_manga_id': character_manga_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#daikirai').remove();
+                }
+            });
+        }
+		
+		function daisuki(character_manga_id){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'daisuki' %}",
+                data: {
+                    'username': "{{request.user.username}}",
+                    'character_manga_id': character_manga_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#daisuki').remove();
+                }
+            });
+        }
+</script>
+
+{% endblock %}
+	
+								{% block character_detail %} 
+                                    <div class="col-md-8 col-sm-6 col-xs-12">
+                                        <!--Content-Column-->
+                                        <div class="cont-column">
+                                            <div class="inner-box">
+                                                <h3 class="anime-title"><a href="#">{{character.name}}</a></h3>
+												
+                                                <div class="item-cats subtitle">from <a href="{% url 'manga_details' slug=character.manga.slug %}" >{{character.manga}}</a>
+                                                </div>
+                                                <div class="description anime-desc" >
+                                                    {{character.synopsys}}
+                                                </div>                                                
+                                                
+												{% if request.user.is_authenticated %}
+												{% get_rating_form for character as rating_form %}
+													<form id="rate-form">
+														{% csrf_token %}
+														{{ rating_form }}
+														
+													</form>
+													<div id="ratings-average">
+														{% get_rating_score for character as score %}
+														{% if score %}
+															Average ratings: {{ score.average|floatformat }}<br>
+															Number of votes: {{ score.num_votes }}<br>
+														{% else %}
+															How sad: nobody voted {{ film }}<br>
+														{% endif %}
+													</div>
+												
+												<div class="btn-group">													
+													<button {% if daisuki %} style="display:none;" {% endif %}  id="daisuki" class="btn btn-info" onclick="daisuki({{character.id}})" type="button">
+															Add to Daisukilist </button>
+													</div><!--btn-group-->
+													
+													<div id="daikirai" class="btn-group">													
+														<button {% if daikirai %} style="display:none;" {% endif %} class="btn btn-danger" onclick="daikirai({{character.id}})" type="button">
+															Add to Daikirailist </button>
+													</div><!--btn-group-->
+											{% endif %}
+												
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endblock %}
+                                    
+     {% block ratings %}
+	<script type="text/javascript">
+        $(document).ready(function() {
+			$('#id_score').addClass('rating');
+			$('#id_score').attr('type', 'hidden');
+		});
+		
+		 $("#rate-form").click(function() {
+                rate();
+          });
+          
+          function rate(){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'ratings_vote' %}",
+                data: {
+					'honeypot': $('#id_honeypot').val(),
+					'security_hash': $('#id_security_hash').val(),
+					'timestamp': $('#id_timestamp').val(),
+					'key': $('#id_key').val(),
+					'object_pk': $('#id_object_pk').val(),
+					'content_type': $('#id_content_type').val(),
+					'score': $('#id_score').val(),
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+					$.get("{% url 'ratings_average' entity='character_manga' id=character.id %}", function(data, status){
+						
+						$('#ratings-average').html(data)
+					});
+                    $.notify("Rated "+ status, "default");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+	</script>
+                                    {% endblock %}

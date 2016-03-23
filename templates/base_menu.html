@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Animetacchi</title>
+    <!-- Stylesheets -->
+    <link href="{{ MEDIA_URL }}css/bootstrap.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-rating.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/revolution-slider.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/jquery-ui.css" rel="stylesheet">
+
+    <!-- Responsive -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link href="{{ MEDIA_URL }}css/responsive.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+    <!--[if lt IE 9]>
+    <script src="{{ MEDIA_URL }}js/respond.js"></script><![endif]-->
+    <!-- Jquery Js -->
+    <script src="{{ MEDIA_URL }}js/jquery.min.js"></script>
+    
+    
+
+    {% block css %}{% endblock %}
+    {% block js %}<script>$(document).bind('star_change', function(event, value) {
+    alert('New vote: ' + value);
+});</script>{% endblock %}
+</head>
+
+<body>
+<div class="page-wrapper">
+ 	
+    <!-- Preloader -->
+    <div class="preloader"></div>
+
+    <!-- Main Header-->
+    <header class="main-header">
+
+        <!-- Header Lower -->
+        <div class="header-lower">
+            <div class="auto-container">
+                <!--Outer Box-->
+                <div class="outer-box clearfix" style="margin-top:-10px;">
+
+                    <!-- Logo -->
+                    <div style="position:absolute;padding-top:35px;">
+                        <a href="{% url 'home' %}"><span><h3 style="color:#fff;">Animetacchi</h3></span></a>
+                    </div>
+
+                    <!--Search Btn
+                    <div class="search-box-btn"><span class="icon fa fa-search"></span></div>
+					-->
+                    <!-- Main Menu -->
+                    <nav class="main-menu">
+
+                        <div class="navbar-header">
+                            <!-- Toggle Button -->
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <div class="navbar-collapse collapse clearfix">
+                            {% include 'base/navigation.html' %}
+                        </div>
+                    </nav><!-- Main Menu End-->
+
+                </div>
+            </div>
+        </div><!-- Header Lower End-->
+
+    </header><!--End Main Header -->
+
+	<!-- Hidden Bar -->
+    <section class="hidden-bar right-align">
+
+        <div class="hidden-bar-closer">
+            <button class="btn"><i class="fa fa-close"></i></button>
+        </div>
+    	<!-- Hidden Bar Wrapper -->
+        <div class="hidden-bar-wrapper">
+
+        	<!-- .logo -->
+            <div class="logo text-center">
+            	<a href="index.html"><img src="{{ MEDIA_URL }}images/main-logo.png" alt=""></a>
+            </div><!-- /.logo -->
+
+            <!-- .Side-menu -->
+            <div class="side-menu">
+            <!-- .navigation -->
+                <ul class="navigation">
+                    <li class="dropdown"><a href="{% url 'home' %}">Home</a>
+                        <ul class="submenu">
+                            <li><a href="index.html">Homepage One</a></li>
+                            <li><a href="index-2.html">Homepage Two</a></li>
+                            <li><a href="index-3.html">Homepage Three</a></li>
+                            <li><a href="index-4.html">Homepage Four</a></li>
+                            <li><a href="index-5.html">Homepage Five</a></li>
+                            <li><a href="index-6.html">Homepage Six</a></li>
+                            <li><a href="index-7.html">Homepage Seven</a></li>
+                            <li><a href="index-8.html">Homepage Eight</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'services' %}">Services</a></li>
+                    <li class="dropdown"><a href="#">Pages</a>
+                        <ul class="submenu">
+                            <li><a href="pricing.html">Pricing</a></li>
+                            <li class="dropdown"><a href="portfolio-five-column.html">Portfolio</a>
+                                <ul class="submenu">
+                                    <li><a href="portfolio-five-column.html">Portfolio 5 Column</a></li>
+                                    <li><a href="portfolio-four-column.html">portfolio 4 Column</a></li>
+                                    <li><a href="portfolio-four-column-grid.html">Portfolio 4 Column Grid</a></li>
+                                    <li><a href="portfolio-list-full.html">Portfolio List Full</a></li>
+                                    <li><a href="portfolio-list-grid.html">Portfolio List Grid</a></li>
+                                    <li><a href="portfolio-list-view-rightbar.html">Portfolio List Rightbar</a></li>
+                                    <li><a href="portfolio-single.html">Portfolio Single</a></li>
+                                    <li><a href="portfolio-single-full.html">Portfolio Single FUll</a></li>
+                                    <li><a href="portfolio-single-rightbar.html">Portfolio Single Rightbar</a></li>
+                                    <li><a href="portfolio-single-two.html">Portfolio Single Two</a></li>
+                                    <li><a href="portfolio-three-column.html">Portfolio 3 Column</a></li>
+                                    <li><a href="portfolio-three-column-grid.html">Portfolio 3 Column Grid</a></li>
+                                    <li><a href="portfolio-three-column-rightbar.html">Portfolio 3 Column Rightbar</a></li>
+                                    <li><a href="portfolio-three-column-rightbar-full.html">Portfolio 3 Column Full</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="shortcodes.html">Shortcodes</a></li>
+                            <li><a href="cart.html">Cart Page</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="blog.html">Blog</a>
+                        <ul class="submenu">
+                            <li><a href="blog.html">Blog</a></li>
+                            <li><a href="blog-centered.html">Blog Centered</a></li>
+                            <li><a href="blog-leftbar.html">Blog Leftbar</a></li>
+                            <li><a href="blog.html">Blog Rightbar</a></li>
+                            <li><a href="blog-single-leftbar.html">Blog Single Leftbar</a></li>
+                            <li><a href="blog-single-rightbar.html">Blog Single Rightbar</a></li>
+                            <li><a href="blog-single-rightbar-centered.html">Blog Single Centered</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown"><a href="shop-four-column.html">Shop</a>
+                        <ul class="submenu">
+                            <li><a href="shop-four-column.html">Shop 4 Column</a></li>
+                            <li><a href="shop-sidebar-left.html">Shop Leftbar</a></li>
+                            <li><a href="shop-sidebar-right.html">Shop Rightbar</a></li>
+                            <li><a href="shop-single.html">Shop Single</a></li>
+                            <li><a href="shop-single-leftbar.html">Shop Single Leftbar</a></li>
+                            <li><a href="shop-single-rightbar.html">Shop Single Rightbar</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul><!-- /.navigation -->
+            </div><!-- /.Side-menu -->
+
+            <div class="social-icons">
+                <ul>
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+
+        </div><!-- / Hidden Bar Wrapper -->
+    </section><!-- / Hidden Bar -->
+    
+    {% block body %}
+    {% endblock %}
+    
+    <!--Main Footer-->
+    <footer class="main-footer">
+        
+        <!--Footer Bottom-->
+    	<div class="footer-bottom">
+            <div class="auto-container">
+                <!--Copyright-->
+                <div class="copyright">Made with &ensp;<span class="theme_color fa fa-heart-o"></span>&ensp; by et-projects | &copy; Copyright 2016 All Rights Reserved</div>
+            </div>
+        </div>
+        
+    </footer>
+    
+    
+</div>
+<!--End pagewrapper-->
+
+<!--Scroll to top-->
+<div class="scroll-to-top"><span class="fa fa-arrow-up"></span></div>
+
+
+<!--Search Popup-->
+<div id="search-popup" class="search-popup">
+	<div class="close-search theme-btn"><span class="flaticon-close7"></span></div>
+	<div class="popup-inner">
+    
+    	<div class="search-form">
+        	<form method="post" action="index.html">
+            	<div class="form-group">
+                	<fieldset>
+                        <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
+                        <input type="submit" value="Search Now!" class="theme-btn">
+                    </fieldset>
+                </div>
+            </form>
+            
+            <br>
+            
+            
+        
+        </div>
+        
+    </div>
+</div>
+
+<script src="{{ MEDIA_URL }}js/jquery.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap.min.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{{ MEDIA_URL }}js/bxslider.js"></script>
+<script src="{{ MEDIA_URL }}js/owl.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.appear.js"></script>
+<script src="{{ MEDIA_URL }}js/knob.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.fancybox.pack.js"></script>
+<script src="{{ MEDIA_URL }}js/nouislider.js"></script>
+<script src="{{ MEDIA_URL }}js/wow.js"></script>
+<script src="{{ MEDIA_URL }}js/script.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap-rating.js"></script>
+<script src="{{ MEDIA_URL }}js/notify.min.js"></script>
+
+</body>
+</html>

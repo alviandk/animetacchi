@@ -1,0 +1,88 @@
+{% extends 'User/library.html' %}
+	{% block caret %} Manga Library {% endblock %}
+	{% block panel %}
+                                <div class="panel-body tab-content">
+                                    											
+									<div class="table-responsive tab-pane active" id="all" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/bliss-manga.html' %}				
+										</table> 				
+										<table class="table"> 					
+											{% include 'User/table/life-manga.html' %}				
+										</table>
+										<table class="table"> 
+											{% include 'User/table/hope-manga.html' %}
+										</table>
+										<table class="table"> 
+											{% include 'User/table/agony-manga.html' %}
+										</table>
+									</div><!--"table-responsive"-->
+									<div class="table-responsive tab-pane" id="bliss" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/bliss-manga.html' %}				
+										</table> 				
+										
+									</div><!--"table-responsive"-->
+									<div class="table-responsive tab-pane" id="life" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/life-manga.html' %}				
+										</table> 				
+										
+									</div><!--"table-responsive"-->
+									<div class="table-responsive tab-pane" id="hope" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/hope-manga.html' %}				
+										</table> 				
+										
+									</div><!--"table-responsive"-->
+									<div class="table-responsive tab-pane" id="agony" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/agony-manga.html' %}				
+										</table> 				
+										
+									</div><!--"table-responsive"-->
+									
+									
+									                                    
+                                </div><!--"panel-body"-->
+                                {% endblock %}

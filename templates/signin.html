@@ -1,0 +1,81 @@
+{% extends 'base_home.html' %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ MEDIA_URL }}signin/css/app.v2.css" type="text/css"/>
+    <link rel="stylesheet" href="{{ MEDIA_URL }}signin/css/formValidation.css" type="text/css" cache="false"/>
+
+{% endblock %}
+{% block js %}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            {% if message_error %}
+                $.notify("{{message_error}}", "error");
+            {% endif %}
+            {% if message_match %}
+                $.notify("{{message_match}}", "info");
+            {% endif %}
+            {% if message_active %}
+                $.notify("{{message_active}}", "warn");
+            {% endif %}
+            {% if message_success %}
+                $.notify("{{message_success}}", "error");
+                $(function(){
+                    window.location="{% url 'users' username=request.user %}";
+                })
+            {% endif %}
+        });
+
+
+    </script>
+
+{% endblock %}
+
+{% block body %}
+
+<body>
+    <div style="background-image: url(/media/signin/image/bg.jpg);">
+        <div style="background-color: rgba(0,0,0,0.5);">
+            <p style="padding-top:220px;"></p>
+            <section id="content" class="m-t-lg wrapper-md animated fadeInDown">
+                <!--<a class="nav-brand" href="{% url 'home'%}">Animetacchi</a>-->
+
+                <div class="row m-n">
+                    <div class="col-md-4 col-md-offset-4 m-t-lg">
+                        <section class="panel">
+                            <header class="panel-heading text-center"> Sign in</header>
+                            <form method="POST" action="{% url 'signin' %}" class="panel-body" id="defaultForm">{% csrf_token %}
+                                <div class="form-group"><label class="control-label">Email</label>
+                                    <input type="email" name="email" placeholder="test@example.com" class="form-control">
+                                </div>
+                                <div class="form-group"><label class="control-label">Password</label>
+                                    <input type="password" name="password" placeholder="Password"
+                                           class="form-control">
+                                </div>
+                                <a href="#" class="pull-right m-t-xs">
+                                    <small>Forgot password?</small>
+                                </a>
+                                <button type="submit" class="btn btn-info">Sign in</button>
+                                <div class="line line-dashed"></div>
+                                <p class="text-muted text-center">
+                                    <small>Do not have an account?</small>
+                                </p>
+                                <a href="{% url 'signup' %}" class="btn btn-white btn-block">Create an account</a>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </section>
+            <!-- footer -->
+            <footer id="footer">
+                <div class="text-center padder clearfix">
+                    <p>
+                        <small>Animetacchi<br>&copy; 2016</small>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+
+{% endblock %}

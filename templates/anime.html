@@ -1,0 +1,207 @@
+{% extends 'base_menu.html' %}
+
+{% block css %}
+    <link href="{{ MEDIA_URL }}css/nouislider.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/nouislider.pips.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-reset.css" rel="stylesheet">
+
+    <link href="{{ MEDIA_URL }}css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .anime-title:after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            bottom: 0px;
+            width: 70px;
+            height: 4px;
+            background: #11c3f0;
+        }
+    </style>
+
+{% endblock %}
+{% block js %}
+
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        function reloadajax(varpage,id){
+            $.ajax({
+                type:"GET",
+                url:"{% url 'anime' %}",
+                data : {
+                    'pages_ajax': 'page_ajax',
+                    'page': varpage,
+                    'id':id
+                },
+                success:function(response){
+                    $('#anime_data').html(response);
+                }
+            });
+        }
+        function search(){
+            search_value = $('input[name=search]').val();
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'anime' %}",
+                data: {
+                    'action': 'search',
+                    'search_value': search_value,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#anime_data').html(response);
+                }
+            });
+        }
+
+        function checkbox(){
+            var anime_check = [];
+            $('input[name=animes_check]:checked').each(function(){
+                anime_check.push($(this).val());
+            });
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'anime' %}",
+                data: {
+                    'action': 'checkbox',
+                    'anime_check': JSON.stringify(anime_check),
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#anime_data').html(response);
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block body%}
+    
+    <div class="sidebar-page shop-page">
+    	
+        <div class="auto-container">
+    		
+            <div class="row clearfix">
+            	
+                <!--Left Content-->
+            	<div class="col-lg-9 col-md-8 col-sm-6 col-xs-12 pull-right">
+                
+                	<!--Products Section-->
+                    <section class="products-section">
+
+                        <div class="shop-filters category-filters">
+                            <div class="clearfix">
+                                <!--Filter Outer-->
+                                <div class="col-lg-10 col-md-6 col-sm-6 col-xs-12 pull-left">
+                                    <div class="anime-title">
+                                        <h3>Anime</h3>
+                                    </div>
+                                </div>
+                                <!--<div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 pull-right pull-bottom">
+                                    <div class="btn-group" style="margin-top:20px;">
+                                            <button type="button" class="btn btn-default filter-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> GENDER :  <span class="filter-val">MALE</span> &ensp;<span class="fa fa-angle-down"></span></button>
+                                            <ul class="dropdown-menu" id="dropDownId">
+                                                <li><a href="#">Male</a></li>
+                                                <li><a href="#">Female</a></li>
+                                                <li><a href="#">All</a></li>
+                                            </ul>
+                                        </div>
+                                </div>-->
+
+                            </div>
+                        </div>
+                        <div id="anime_data">
+                            <div class="row clearfix">
+                                {% for i in anime_data %}
+
+                                <!--Column-->
+                                <article class="product-item col-lg-2 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="inner-box tooltips" style="width:129;height:187px;"
+                                         data-toggle="tooltip" data-placement="top" title="{{i.a_name}}">
+                                        <figure class="image" style="border-radius:5px;"><a href="{% url 'anime_details' slug=i.slug %}"><img
+                                                src="{{ MEDIA_URL }}{{i.a_displaypic}}" alt=""></a>
+                                            <div class="product-content"
+                                                 style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
+                                                <a href="{% url 'anime_details' slug=i.slug %}">{{i.a_name}}</a></div>
+                                        </figure>
+
+
+                                    </div>
+                                </article>
+                                {% endfor %}
+
+                            </div>
+
+                            <!-- Centered Pagination -->
+                            <div class="centered-pagination text-left">
+                                <ul>
+                                    {% for i in paginator.page_range %}
+                                        <li><a {% if i == number %}class="active"{% endif%} onclick="reloadajax('{{i}}')" href="#">{{i}}</a></li>
+                                    {% endfor %}
+                                    {% if current_page.has_next %}
+                                        <li><a onclick="reloadajax('{{current_page.next_page_number}}')" href="#">&raquo;</a></li>
+                                    {% else %}
+                                        <li class="disabled"><a href="#">&raquo;</a> </li>
+                                    {% endif %}
+                                    <!--<a href="#" class="active">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">....</a></li>
+                                    <li><a href="#">10</a></li>
+                                    <li><a href="#">11</a></li>
+                                    <li><a href="#">12</a></li>-->
+
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </section>
+                    
+                </div><!--End Left Content-->
+                
+                
+                <!--Sidebar-->	
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 pull-left">
+                    <aside class="sidebar">
+                    
+                        <!-- Search Form -->
+                        <div class="widget search-form">
+                                <div class="form-group">
+                                    <input type="search" name="search" placeholder="search for something">
+                                    <button onclick="search()" name="submit"><span class="fa fa-search"></span></button>
+                                </div>
+                            
+                        </div>
+                        
+                        <!-- Choose Brand -->
+                        <div class="widget choose-brand checkbox-filters two-column wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
+                            <div class="sidebar-title"><h3>Genre</h3></div>
+                            <div class="row clearfix">
+                                {% for i in genre %}
+                                <div class="col-lg-6 col-md-12 col-sm-12 column">
+                                    <div class="check-item"><input onclick="checkbox()" name="animes_check" type="checkbox" id="{{i.genre_type}}" value="{{i.id}}"><label
+                                            class="checkbox-label" for="{{i.genre_type}}" style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="icon-box"><span
+                                            class="uncheck"></span> <span class="fa fa-check check"></span></span>{{i.genre_type}}</label>
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                        </div>
+
+                    </aside>
+                
+                    
+                </div>
+                <!--Sidebar-->
+                
+            </div>
+        </div>
+    
+    </div>
+    
+{% endblock %}

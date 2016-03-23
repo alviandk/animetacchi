@@ -1,0 +1,122 @@
+{% extends 'base_menu.html' %}
+
+{% block css %}
+    <link href="{{ MEDIA_URL }}css/nouislider.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/nouislider.pips.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-reset.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .anime-title:after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            bottom: 0px;
+            width: 70px;
+            height: 4px;
+            background: #11c3f0;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body%}
+    
+    <div class="sidebar-page shop-page" style="padding: 20px 0px 80px;">
+    	
+        <div class="auto-container">
+    		
+            <div class="row clearfix">
+            	
+                <!--Left Content-->
+            	<div class="col-xs-12">
+                
+                	<!--Products Section-->
+                    <section class="products-section">
+
+                        <div class="shop-filters category-filters">
+                            <div class="clearfix">
+                                <!--Filter Outer-->
+                                <div class="col-lg-10 col-md-6 col-sm-6 col-xs-12 pull-left">
+                                    <div class="tabs-box">
+										<!-- Tab Buttons -->
+										<div class="tab-buttons anim-3-all clearfix">											
+											<a href="{% url 'anime_chart' season='winter' %}" class="tab-btn {% if season == 'winter' %} active {% endif %}">Winter</a>
+											<a href="{% url 'anime_chart' season='spring' %}" class="tab-btn {% if season == 'spring' %} active {% endif %}">Spring</a>
+											<a href="{% url 'anime_chart' season='summer' %}" class="tab-btn {% if season == 'summer' %} active {% endif %}">Summer</a>
+											<a href="{% url 'anime_chart' season='fall' %}" class="tab-btn {% if season == 'fall' %} active {% endif %}">Fall</a>
+										</div>                          
+									</div>
+                                    <div class="anime-title">
+                                        <h3>Chart</h3>
+                                    </div>
+                                    
+                                </div>                           
+                            </div>
+                        </div>
+                        <div id="anime_data">
+                            <div class="row clearfix">
+								{% for i in anime_data.anime.all %}                                
+
+                                <!--Column-->
+                                <article class="product-item col-lg-4 col-md-6 col-sm-12 col-xs-12" style="margin-bottom: 175px;">
+                                    <div class="inner-box tooltips" style="width:129;height:187px;"
+                                         data-toggle="tooltip" data-placement="top" title="{{i.a_name}}">
+                                        
+                                        <div class="row">
+											    <div class="col-md-6 col-sm-6 col-xs-12" style="margin:-5px 0 0 -20px;">
+                                        <!--Image-->
+                                        <figure class="image">
+                                            <a href="{% url 'anime_details' slug=i.slug %}" class="lightbox-image"
+                                               title="Awsome Title Here"><img src="{{ MEDIA_URL }}{{i.a_displaypic}}" alt="" width="215" height="311" style="border-radius:5px;"></a>
+                                        </figure>
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <!--Content-Column-->
+                                        <div class="cont-column">
+                                            <div class="inner-box">
+                                                <h5><a href="{% url 'anime_details' slug=i.slug %}">{{i.a_name}}</a></h5>
+
+                                                <div class="item-cats subtitle">Aired from {{i.a_airedstart}} to {{i.a_airedend}}
+                                                </div>
+                                                <div class="description anime-desc" >
+                                                    {{i.a_synopsys|truncatechars:250}}
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                        </div>
+
+
+                                    </div>
+                                </article>
+                                {% empty %}
+                                <div class="col-lg-6" style="margin-bottom: 335px;">
+									<p><strong>Sorry no anime on this chart.</strong></p>
+                                </div>
+                                {% endfor %}
+                                
+                                
+
+                            </div>
+
+                           
+                           
+                        </div>
+                        
+                    </section>
+                    
+                </div><!--End Left Content-->
+                
+                
+                
+                
+            </div>
+        </div>
+    
+    </div>
+    
+{% endblock %}

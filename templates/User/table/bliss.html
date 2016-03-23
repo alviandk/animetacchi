@@ -1,0 +1,33 @@
+									   {% load ratings_tags %}
+											<thead> 												
+												<tr class="active"> 													
+													<th colspan="3">Bliss</th> 
+													<th>{{bliss.count}} Title</th> 
+												</tr> 
+											</thead> 
+											<tbody> 
+												{% for list in bliss %}
+												<tr> 
+													<td class="col-md-6">{{list.watchlist}}</td> 
+													<td class="col-md-2"></td> 
+													<td class="col-md-2">
+                                                    {% get_rating_score for list.watchlist as score %}
+													{% if score %}
+														{{ score.average|floatformat }}													
+													{% else %}
+														nobody voted
+													{% endif %}
+                                                    </td> 
+													<td class="col-md-2">Anime</td> 
+												</tr>
+												{% empty %}
+												<tr> 
+													<td class="col-md-6">Nope</td> 
+													<td class="col-md-2"></td> 
+													<td class="col-md-2"></td> 
+													<td class="col-md-2"></td>  
+													 
+												</tr>
+												{% endfor %}  
+											</tbody> 
+										

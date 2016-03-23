@@ -1,0 +1,416 @@
+{% extends 'base_menu.html' %}
+
+{% block css %}
+
+    <link href="{{ MEDIA_URL }}css/style2.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-reset.css" rel="stylesheet">
+
+    <link href="{{ MEDIA_URL }}css/style-responsive.css" rel="stylesheet" />
+    <style type="text/css">
+        .proPic {
+            width:138px;
+            height:138px;
+            float: left;
+            no-repeat;
+            border:5px solid #fff;
+        }
+        .proPic .redO{
+            position:relative;
+            background:#E2D8D7;
+            font-weight: 700;
+            top: -30px;
+            opacity:0.7;
+            padding: 0 0 0 5px;
+        }
+    </style>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        function aboutEdit(){
+            $('#aboutFile').hide();
+            $('#aboutEdit').show();
+            $('#aboutEdita').hide();
+            $('#aboutSave').show();
+        }
+        function submit(type,seq){
+            var about = $('#aboutForm').val();
+            var member = $('input[name=memberUser]').val();
+            var seq_about = $('input[name=seq_about]').val();
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'users' username=member.m_name %}",
+                data: {
+                    'action': type,
+                    'seq_about':seq_about,
+                    'about': about,
+                    'member': member,
+                    'csrfmiddlewaretoken':'{{csrf_token}}'},
+                success:function(response){
+                    window.location = "{% url 'users' username=member.m_name %}"
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block body%}
+    <!--Main Slider-->
+    <section class="page-title"
+             style="background-image: url({{ MEDIA_URL }}{{member.m_cover}}); width:100%;height:400px;">
+        <div class="auto-container">
+            <div class="row clearfix">
+                <div class="col-lg-6 col-xs-12" style="position:absolute;bottom:30px;">
+                    <div class="proPic">
+                        <a href="#">
+							{% if member.m_picture %}
+							<img src="{{MEDIA_URL}}{{member.m_picture}}" alt="MembersPictureAnimetacchi"
+                                         width="128" height="128">
+                            {% else %}
+                            <img src="{{MEDIA_URL}}MembersPicture/pic.png" alt="MembersPictureAnimetacchi"
+                                         width="128" height="128">
+                            {% endif %}
+                        </a>
+
+                        {% if member.user == request.user %}
+							<!--<div class="redO"><a href="#" class="fa fa-camera"> Update Picture</a></div>-->
+							<h2 style="padding-left:15px;"> {{member.m_name}}</h2>
+                        {% else %}
+							
+							<h2 style="padding-left:15px;" > {{member.m_name}}</h2>
+							
+                        {% endif %}
+                        
+                        
+
+                    <div style="top:5px; padding-left:15px;"></div>
+
+
+                    </div>
+                    <figure class="image">
+                    </figure>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Title -->
+    <section style="height:70px;background-color: #E0DEDE" class="page-title" >
+    	<div class="auto-container">
+        	<div class="row clearfix">
+                <div class="tabs-box">
+                    <!-- Tab Buttons -->
+                    <div class="tab-buttons anim-3-all clearfix" style="padding-left:15px;">
+                        <a href="{% url 'users' username=member.user.username %} " class="tab-btn {% if not 'library' in request.META.PATH_INFO %} active {% endif %}">Feed</a>
+                        <a href="{% url 'library' username=member.user.username %}" class="tab-btn {% if 'library' in request.META.PATH_INFO %} active {% endif %}">Library</a>
+                        
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+   {% block dashboard_body %} 
+    <div class="sidebar-page">
+        <div class="auto-container">
+            <div class="row clearfix" >
+                <div class="col-sm-6" id="formAbout">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <h3>About
+                                    <span class="tools pull-right">
+                                        <div onclick="aboutEdit()">
+                                            <a href="javascript:;" id="aboutEdita"class="fa fa-pencil"></a>
+                                        </div>
+                                        <div onclick="submit('saveAbout')">
+                                            <button style="display:none;" id="aboutSave" class="btn btn-default btn-xs">Save
+                                            </button>
+                                            <input type="hidden" name="memberUser" value="{{request.get_full_path}}"/>
+                                            {% for i in about_data %}
+                                                <input type="hidden" name="seq_about" value="{{i.seq_about}}"/>
+                                            {% endfor %}
+                                        </div>
+                                    </span>
+                                    </h3>
+                                </header>
+                                <div class="panel-body" id="aboutFile" >
+                                    {% for i in about_data %}{{i.about}}{% endfor %}
+                                    
+                                </div>
+                                <div style="display:none;" id="aboutEdit" class="panel-body" >
+                                    <textarea class="form-control ckeditor" id="aboutForm" rows="3" style="margin-top: 0px; margin-bottom: 0px; height: 100px;" placeholder="Tell us about yourself. :3">{% for i in about_data %}{{i.about}}{% endfor %}</textarea>
+                                    
+                                </div>
+                            </section>-->
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--<section class="panel">
+                                
+                                <div class="panel-body">
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="3" placeholder="Write something..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">POST</button>                                
+                                    
+                                </div>
+                            </section>-->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row clearfix">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <h3>Daisukilist</h3>
+                                        
+                                </header>
+                                <div class="panel-body">                                    
+                                    {% for daisuki in member.daisukilist_set.all %}
+                                    <h3>Anime</h3>
+                                    <div class="row">
+										{% for anime in daisuki.anime.all %}
+											<div class="col-md-4 col-sm-6 col-xs-12">
+												<!--Image-->
+												<figure class="image">
+													<a href="{% url 'anime_details' slug=anime.slug %}" class="lightbox-image"
+													   title="{{anime.a_name}}"><img src="{{ MEDIA_URL }}{{anime.a_displaypic}}" alt="" width="137" height="199" style="border-radius:5px;"></a>
+												</figure>
+											</div>
+											
+										{% empty %}
+											<div class="col-md-12">
+												<strong>You have no daisukilist of Anime</strong>
+											</div>
+										{% endfor %}
+									</div>
+									<hr>
+									<h3>Character</h3>
+									<div class="row">										
+										{% for character in daisuki.character.all %}
+										
+											<div class="col-md-4 col-sm-6 col-xs-12">
+												<!--Image-->
+												<figure class="image">
+													<a href="{% url 'anime_character' slug=character.anime.slug id=character.id %}" class="lightbox-image"
+													   title="{{character.name}}"><img src="{{ MEDIA_URL }}{{character.picture}}" alt="" width="137" height="199" style="border-radius:5px;"></a>
+												</figure>
+											</div>
+											
+										{% empty %}
+											<div class="col-md-12">
+												<strong>You have no daisukilist of Character</strong>
+											</div>
+										{% endfor %}
+									</div>
+									<hr>
+									<h3>Voice Actor</h3>
+									<div class="row">										
+										{% for voice in daisuki.voice_character.all %}
+										
+											<div class="col-md-4 col-sm-6 col-xs-12">
+												<!--Image-->
+												<figure class="image">
+													<a href="{% url 'anime_voice' id=voice.id %}" class="lightbox-image"
+													   title="{{voice.name}}"><img src="{{ MEDIA_URL }}{{voice.picture}}" alt="" width="137" height="199" style="border-radius:5px;"></a>
+												</figure>
+											</div>											
+										{% empty %}
+											<div class="col-md-12">
+												<strong>You have no daisukilist of Voice Actor</strong>
+											</div>
+										{% endfor %}
+									</div>
+									<hr>
+										
+									{% empty %}
+										<h3>Anime</h3>
+										<div class="row">										
+											<div class="col-md-12">
+												<strong>You have no daisukilist of Anime</strong>
+											</div>
+										</div>
+										<hr>
+										<h3>Character</h3>
+										<div class="row">										
+											<div class="col-md-12">
+												<strong>You have no daisukilist of Character</strong>
+											</div>
+										</div>
+										<hr>
+										<h3>Voice Actor</h3>
+										<div class="row">										
+											<div class="col-md-12">
+												<strong>You have no daisukilist of Voice Actor</strong>
+											</div>										
+										</div>
+										<hr>
+                                    {% endfor %}                                    
+                                </div>
+                            </section>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <h3>Daikirailist</h3>
+                                        
+                                </header>
+                                <div class="panel-body">                                    
+                                    {% for daikirai in member.daikirailist_set.all %}
+                                    <h3>Anime</h3>
+                                    <div class="row">
+										{% for anime in daikirai.anime.all %}
+											<div class="col-md-4 col-sm-6 col-xs-12">
+												<!--Image-->
+												<figure class="image">
+													<a href="{% url 'anime_details' slug=anime.slug %}" class="lightbox-image"
+													   title="{{anime.a_name}}"><img src="{{ MEDIA_URL }}{{anime.a_displaypic}}" alt="" width="137" height="199" style="border-radius:5px;"></a>
+												</figure>
+											</div>
+											
+										{% empty %}
+											<div class="col-md-12">
+												<strong>You have no daikirailist of Anime</strong>
+											</div>
+										{% endfor %}
+									</div>
+									<hr>
+									<h3>Character</h3>
+									<div class="row">										
+										{% for character in daikirai.character.all %}
+										
+											<div class="col-md-4 col-sm-6 col-xs-12">
+												<!--Image-->
+												<figure class="image">
+													<a href="{% url 'anime_character' slug=character.anime.slug id=character.id %}" class="lightbox-image"
+													   title="{{character.name}}"><img src="{{ MEDIA_URL }}{{character.picture}}" alt="" width="137" height="199" style="border-radius:5px;"></a>
+												</figure>
+											</div>
+											
+										{% empty %}
+											<div class="col-md-12">
+												<strong>You have no daikirailist of Character</strong>
+											</div>
+										{% endfor %}
+									</div>
+									<hr>
+									
+										
+									{% empty %}
+										<h3>Anime</h3>
+										<div class="row">										
+											<div class="col-md-12">
+												<strong>You have no daikirailist of Anime</strong>
+											</div>
+										</div>
+										<hr>
+										<h3>Character</h3>
+										<div class="row">										
+											<div class="col-md-12">
+												<strong>You have no daikirailist of Character</strong>
+											</div>
+										</div>
+										<hr>
+										
+                                    {% endfor %}                                    
+                                </div>
+                            </section>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="tabs-box">
+                                <!-- Tab Buttons -->
+                                <div class="tab-buttons anim-3-all clearfix" style="padding-left:15px;">
+                                    <a  class="tab-btn active ">Timeline</a>                                    
+                                    
+                                </div>
+                            </div>
+                            
+                            
+                                {% for i in member.watchlist_set.all %}
+                                <section class="panel">                                
+                                        <div class="panel-body">
+                                            <div class="col-md-4 col-sm-6 col-xs-12" style="margin:-5px 0 0 -20px;">
+                                                <!--Image-->
+                                                <figure class="image">
+                                                    <a href="#" class="lightbox-image"
+                                                       title="{{i.watchlist.a_name}}"><img src="{{ MEDIA_URL }}{{i.watchlist.a_displaypic}}" alt="" width="100" height="150" style="border-radius:5px;"></a>
+                                                </figure>
+                                            </div>
+
+                                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                                <!--Content-Column-->
+                                                <div class="cont-column">
+                                                    <div class="inner-box">
+                                                        <h3 class="anime-title"><a href="#">{{i.watchlist.a_name}}</a></h3>
+                                                        <ul class="list-inline">
+                                                            {% for genre in i.watchlist.a_genre.all %}
+                                                            <li href="#">{{genre.genre_type}}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </section>
+                                    {% endfor %}                                    
+                            
+                                {% for i in member.readinglist_set.all %}
+                                    <section class="panel">                                
+                                        <div class="panel-body">
+                                            <div class="col-md-4 col-sm-6 col-xs-12" style="margin:-5px 0 0 -20px;">
+                                                <!--Image-->
+                                                <figure class="image">
+                                                    <a href="#" class="lightbox-image"
+                                                       title="{{i.readinglist.name}}"><img src="{{ MEDIA_URL }}{{i.readinglist.displaypic}}" alt="" width="100" height="150" style="border-radius:5px;"></a>
+                                                </figure>
+                                            </div>
+
+                                            <div class="col-md-8 col-sm-6 col-xs-12">
+                                                <!--Content-Column-->
+                                                <div class="cont-column">
+                                                    <div class="inner-box">
+                                                        <h3 class="anime-title"><a href="#">{{i.readinglist.name}}</a></h3>
+                                                        <ul class="list-inline">
+                                                            {% for genre in i.readinglist.genre.all %}
+                                                            <li href="#">{{genre.genre_type}}</li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </section>
+                                {% endfor %}
+                        </div>
+                    </div>                
+                </div>
+            </div>			
+        </div>
+    </div>    
+    {% endblock %}
+    
+    
+    {% endblock %}

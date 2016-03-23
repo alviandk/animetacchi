@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Animetacchi</title>
+<!-- Stylesheets -->
+<link href="{{ MEDIA_URL }}css/bootstrap.css" rel="stylesheet">
+<link href="{{ MEDIA_URL }}css/revolution-slider.css" rel="stylesheet">
+<link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet">
+<!-- Responsive -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link href="{{ MEDIA_URL }}css/responsive.css" rel="stylesheet">
+
+<script src="{{ MEDIA_URL }}signin/js/jquery.min.js"></script>
+<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!--[if lt IE 9]><script src="{{ MEDIA_URL }}js/respond.js"></script><![endif]-->
+
+    {% block css %}
+    {% endblock %}
+
+    {% block js %}
+    {% endblock %}
+</head>
+
+<body class="theme-orange">
+<div class="page-wrapper">
+
+    <!-- Preloader -->
+    <div class="preloader"></div>
+
+    <!-- Main Header / Sticky Header-->
+    <header class="main-header sticky-header">
+
+        <!-- Header Lower -->
+        <div class="header-lower">
+
+                <!--Outer Box-->
+                <div class="outer-box clearfix">
+
+                    <!-- Logo -->
+                    <!-- Logo -->
+                    <div style="position:absolute;padding-top:15px;">
+                        <a href="{% url 'home' %}"><span><h3 style="color:#fff;line-height:1em;">Animetacchi</h3></span></a>
+                    </div>
+
+                    <!--Search Btn
+                    <div class="search-box-btn"><span class="icon fa fa-search"></span></div>
+					-->
+                    <!-- Main Menu -->
+                    <nav class="main-menu">
+
+                        <div class="navbar-header">
+                            <!-- Toggle Button -->
+                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+
+                        <div class="navbar-collapse collapse clearfix">
+                            {% include 'base/navigation.html' %}
+                        </div>
+                    </nav><!-- Main Menu End-->
+
+                </div>
+        </div><!-- Header Lower End-->
+
+    </header><!--End Main Header -->
+
+    {% block body %}
+    {% endblock %}
+
+
+
+
+
+</div>
+<!--End pagewrapper-->
+
+<!--Scroll to top-->
+<div class="scroll-to-top"><span class="fa fa-arrow-up"></span></div>
+
+
+<!--Search Popup-->
+<div id="search-popup" class="search-popup">
+	<div class="close-search theme-btn"><span class="flaticon-close7"></span></div>
+	<div class="popup-inner">
+
+    	<div class="search-form">
+        	<form method="post" action="index.html">
+            	<div class="form-group">
+                	<fieldset>
+                        <input type="search" class="form-control" name="search-input" value="" placeholder="Search Here" required >
+                        <input type="submit" value="Search Now!" class="theme-btn">
+                    </fieldset>
+                </div>
+            </form>
+
+            <br>
+            <h3>Recent Search Keywords</h3>
+            <ul class="recent-searches">
+                <li><a href="#">Business</a></li>
+                <li><a href="#">Web Development</a></li>
+                <li><a href="#">SEO</a></li>
+                <li><a href="#">Logistics</a></li>
+                <li><a href="#">Freedom</a></li>
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#defaultForm').formValidation({
+            message: 'This value is not valid',
+            excluded: ':disabled',
+            icon: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                firstName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The first name is required and cannot be empty'
+                        },
+                        stringCase: {
+                            message: 'The first name must contain upper case characters only',
+                            case: 'upper'
+                        },
+                        regexp: {
+                            regexp: /^[A-Z\s]+$/i,
+                            message: 'The first name can only consist of alphabetical characters and spaces'
+                        }
+                    }
+                },
+                lastName: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The last name is required and cannot be empty'
+                        },
+                        stringCase: {
+                            message: 'The last name must contain upper case characters only',
+                            case: 'upper'
+                        },
+                        regexp: {
+                            regexp: /^[A-Z\s]+$/i,
+                            message: 'The last name can only consist of alphabetical characters and spaces'
+                        }
+                    }
+                },
+                uname: {
+                    message: 'The username is not valid',
+                    validators: {
+                        notEmpty: {
+                            message: 'The username is required and cannot be empty'
+                        },
+                        stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: 'The username must be more than 6 and less than 30 characters long'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_\.]+$/,
+                            message: 'The username can only consist of alphabetical, number, dot and underscore'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        notEmpty: {
+                            message: 'Email address is required and cannot be empty'
+                        },
+                        regexp: {
+                            regexp: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                            message: 'The input is not a valid format email address'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The password is required and can\'t be empty'
+                        },
+                        different: {
+                            field: 'username',
+                            message: 'The password cannot be the same as username'
+                        },
+                        regexp: {
+                            regexp: /^(?=.*[a-zA-Z])(?=.*\d).{8,16}$/,
+                            message: 'The passwords first character must be a letter, it must contain at least 8 characters and include at least one numeric digit'
+                        }
+                    }
+                },
+                confirmPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: 'The confirm password is required and can\'t be empty'
+                        },
+                        identical: {
+                            field: 'passwd',
+                            message: 'The password and its confirm are not the same'
+                        }
+                    }
+                },
+                agree: {
+                    validators: {
+                        notEmpty:{
+                            message: 'You must agree with the terms and conditions'
+                        }
+                    }
+                }
+            }
+        })
+    });
+</script>
+
+<script src="{{ MEDIA_URL }}js/jquery.js"></script>
+<script src="{{ MEDIA_URL }}js/bootstrap.min.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{{ MEDIA_URL }}js/revolution.min.js"></script>
+<script src="{{ MEDIA_URL }}js/bxslider.js"></script>
+<script src="{{ MEDIA_URL }}js/owl.js"></script>
+<script src="{{ MEDIA_URL }}js/mixitup.js"></script>
+<script src="{{ MEDIA_URL }}js/jquery.fancybox.pack.js"></script>
+<script src="{{ MEDIA_URL }}js/owl.js"></script>
+<script src="{{ MEDIA_URL }}js/wow.js"></script>
+<script src="{{ MEDIA_URL }}js/script.js"></script>
+<script src="{{ MEDIA_URL }}signin/js/app.v2.js"></script>
+<script src="{{ MEDIA_URL }}signin/js/formValidation.min.js"></script>
+<script src="{{ MEDIA_URL }}signin/js/bootstrap.min.js"></script>
+<script src="{{ MEDIA_URL }}js/notify.min.js"></script>
+
+</body>
+</html>

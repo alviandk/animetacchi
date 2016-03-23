@@ -1,0 +1,46 @@
+.anime-cover {
+    width: 100%;
+    height: 400px;
+    background-size: cover;
+    /***background-position: 50% -260px;**/
+}
+.subtitle {
+    color: #11c3f0;
+}
+.subtitle a {
+    color: #11c3f0;
+}
+.anime-title {
+    font-family: "klavika", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+}
+.anime-desc {
+    font-family:'Open Sans', sans-serif;
+    font-size:14px;
+    color:#838a91;
+    margin-right:-30px;
+}
+.sidebar .sidebar-title {
+    padding: 10px 0 10px 0;
+}
+.sidebar .sidebar-title h2{
+   font-size:14px;
+}
+.tags {
+    margin-top: -15px;
+}
+
+/***
+
+====================================================================
+	Comments Animes
+====================================================================
+
+***/
+body{color:#59595a;line-height:1.5;direction:ltr;-webkit-font-smoothing:antialiased;}@media screen and (min-width: 768px) {html,body{height:100%;}}h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6{line-height:1.1;}
+.panel-heading{padding: 10px 15px;border-bottom: 1px solid transparent;}p{margin: 0 0 10px;line-height: 1.5em;}
+.panel{box-shadow:none;border-radius:2px;}.panel-heading{border-color:#eeeff8;border-top-left-radius:0;border-top-right-radius:0;}.panel-heading.gray{background:#fcfcfc;}.panel-heading.gradient{background:#fcfcfc;background:-webkit-linear-gradient(top,#fcfcfc 0%,#f5f5f5 100%);background:linear-gradient(to bottom,#fcfcfc 0%,#f5f5f5 100%);}.panel-footer{border-top:1px solid #eeeff8;background-color:#fcfcfc;}.panel-group .panel{border-radius:2px;}.panel-default{border-color:#dcdff0;}.panel-default>.panel-heading{color:#59595a;background-color:#eaecf6;border-color:#dcdff0;}.panel-default>.panel-heading+.panel-collapse .panel-body{border-top-color:#dcdff0;}.panel-default>.panel-heading a{color:#59595a;}.panel-default>.panel-footer+.panel-collapse .panel-body{border-bottom-color:#dcdff0;}.panel-primary{border-color:#1582dc;}.panel-primary>.panel-heading{color:#ffffff;background-color:#1582dc;border-color:#1582dc;}.panel-primary>.panel-heading+.panel-collapse .panel-body{border-top-color:#1582dc;}.panel-primary>.panel-heading a{color:#ffffff;}.panel-primary>.panel-footer+.panel-collapse .panel-body{border-bottom-color:#1582dc;}.panel-success{border-color:#15db81;}.panel-success>.panel-heading{color:#ffffff;background-color:#15db81;border-color:#15db81;}.panel-success>.panel-heading+.panel-collapse .panel-body{border-top-color:#15db81;}.panel-success>.panel-heading a{color:#ffffff;}.panel-success>.panel-footer+.panel-collapse .panel-body{border-bottom-color:#15db81;}.panel-warning{border-color:#daac16;}.panel-warning>.panel-heading{color:#ffffff;background-color:#daac16;border-color:#daac16;}.panel-warning>.panel-heading+.panel-collapse .panel-body{border-top-color:#daac16;}.panel-warning>.panel-heading a{color:#ffffff;}.panel-warning>.panel-footer+.panel-collapse .panel-body{border-bottom-color:#daac16;}.panel-danger{border-color:#da3e16;}.panel-danger>.panel-heading{color:#ffffff;background-color:#da3e16;border-color:#da3e16;}.panel-danger>.panel-heading+.panel-collapse .panel-body{border-top-color:#da3e16;}.panel-danger>.panel-heading a{color:#ffffff;}.panel-danger>.panel-footer+.panel-collapse .panel-body{border-bottom-color:#da3e16;}.panel-info{border-color:#15acdc;}.panel-info>.panel-heading{color:#ffffff;background-color:#15acdc;border-color:#15acdc;}.panel-info>.panel-heading+.panel-collapse .panel-body{border-top-color:#15acdc;}.panel-info>.panel-heading a{color:#ffffff;}.panel-info>.panel-footer+.panel-collapse .panel-body{border-bottom-color:#15acdc;}
+.text-muted,.text-muted a{color:#b3b3b3;}.text-muted:focus,.text-muted a:focus{color:#8c8c8c;}
+.p15{padding:15px;}.mr10{margin-right:10px;}.mr5{margin-right:5px;}
+.post-comments .avatar{max-width:48px;border-radius:50%;}.avatar-sm{width:32px;}.post-comments .comment{overflow:hidden;}.post-comments .comment-meta{margin-bottom:5px;}.post-comments .comment-author a,.post-comments .comment-meta a{color:#1a1a1a;}
+.no-m{margin:0!important;}

@@ -1,0 +1,190 @@
+{% extends 'base_menu.html' %}
+
+{% block css %}
+    <link href="{{ MEDIA_URL }}css/nouislider.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/nouislider.pips.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-reset.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        .anime-title:after {
+            content: '';
+            position: absolute;
+            left: 15px;
+            bottom: 0px;
+            width: 70px;
+            height: 4px;
+            background: #11c3f0;
+        }
+    </style>
+
+{% endblock %}
+{% block js %}
+
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        function reloadajax(varpage,id){
+            $.ajax({
+                type:"GET",
+                url:"{% url 'manga' %}",
+                data : {
+                    'pages_ajax': 'page_ajax',
+                    'page': varpage,
+                    'id':id
+                },
+                success:function(response){
+                    $('#manga_data').html(response);
+                }
+            });
+        }
+        function search(){
+            search_value = $('input[name=search]').val();
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'manga' %}",
+                data: {
+                    'action': 'search',
+                    'search_value': search_value,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#manga_data').html(response);
+                }
+            });
+        }
+
+        function checkbox(){
+            var manga_check = [];
+            $('input[name=mangas_check]:checked').each(function(){
+                manga_check.push($(this).val());
+            });
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'manga' %}",
+                data: {
+                    'action': 'checkbox',
+                    'manga_check': JSON.stringify(manga_check),
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#manga_data').html(response);
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block body%}
+    
+    <div class="sidebar-page shop-page">
+    	
+        <div class="auto-container">
+    		
+            <div class="row clearfix">
+            	
+                <!--Left Content-->
+            	<div class="col-lg-9 col-md-8 col-sm-6 col-xs-12 pull-right">
+                
+                	<!--Products Section-->
+                    <section class="products-section">
+
+                        <div class="shop-filters category-filters">
+                            <div class="clearfix">
+                                <!--Filter Outer-->
+                                <div class="col-lg-10 col-md-6 col-sm-6 col-xs-12 pull-left">
+                                    <div class="anime-title">
+                                        <h3>Manga</h3>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div id="manga_data">
+                            <div class="row clearfix">
+                                {% for i in manga_data %}
+
+                                <!--Column-->
+                                <article class="product-item col-lg-2 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="inner-box tooltips" style="width:129;height:187px;"
+                                         data-toggle="tooltip" data-placement="top" title="{{i.name}}">
+                                        <figure class="image" style="border-radius:5px;"><a href="{% url 'manga_details' slug=i.slug %}"><img
+                                                src="{{ MEDIA_URL }}{{i.displaypic}}" alt=""></a>
+                                            <div class="product-content"
+                                                 style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
+                                                <a href="{% url 'manga_details' slug=i.slug %}">{{i.name}}</a></div>
+                                        </figure>
+
+
+                                    </div>
+                                </article>
+                                {% endfor %}
+
+                            </div>
+
+                            <!-- Centered Pagination -->
+                            <div class="centered-pagination text-left">
+                                <ul>
+                                    {% for i in paginator.page_range %}
+                                        <li><a {% if i == number %}class="active"{% endif%} onclick="reloadajax('{{i}}')" href="#">{{i}}</a></li>
+                                    {% endfor %}
+                                    {% if current_page.has_next %}
+                                        <li><a onclick="reloadajax('{{current_page.next_page_number}}')" href="#">&raquo;</a></li>
+                                    {% else %}
+                                        <li class="disabled"><a href="#">&raquo;</a> </li>
+                                    {% endif %}
+
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </section>
+                    
+                </div><!--End Left Content-->
+                
+                
+                <!--Sidebar-->	
+                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 pull-left">
+                    <aside class="sidebar">
+                    
+                        <!-- Search Form -->
+                        <div class="widget search-form">
+                                <div class="form-group">
+                                    <input type="search" name="search" placeholder="search for something">
+                                    <button onclick="search()" name="submit"><span class="fa fa-search"></span></button>
+                                </div>
+                            
+                        </div>
+                        
+                        <!-- Choose Brand -->
+                        <div class="widget choose-brand checkbox-filters two-column wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
+                            <div class="sidebar-title"><h3>Genre</h3></div>
+                            <div class="row clearfix">
+                                {% for i in genre %}
+                                <div class="col-lg-6 col-md-12 col-sm-12 column">
+                                    <div class="check-item"><input onclick="checkbox()" name="mangas_check" type="checkbox" id="{{i.genre_type}}" value="{{i.id}}"><label
+                                            class="checkbox-label" for="{{i.genre_type}}" style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="icon-box"><span
+                                            class="uncheck"></span> <span class="fa fa-check check"></span></span>{{i.genre_type}}</label>
+                                    </div>
+
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                        </div>
+
+                    </aside>
+                
+                    
+                </div>
+                <!--Sidebar-->
+                
+            </div>
+        </div>
+    
+    </div>
+    
+{% endblock %}

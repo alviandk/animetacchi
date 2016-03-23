@@ -1,0 +1,190 @@
+{% extends 'User/dashboard.html' %}
+	{% block dashboard_body %} 
+    <div class="sidebar-page" style="padding: 50px 0px 200px;">
+        <div class="auto-container">
+            <div class="row clearfix" >
+                <div class="col-sm-6" id="formAbout">
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+            
+			<div class="row clearfix">
+				<div class="col-sm-12">
+					<div class="row">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <div class="default-title">
+										<span role="presentation" class="dropdown"> 
+											<a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown" 
+												role="button" aria-haspopup="true" aria-expanded="false"> 
+												{% block caret %} Anime Library {% endblock %}<span class="caret"></span> 
+											</a> 
+											<ul id="menu1" class="dropdown-menu" aria-labelledby="drop4"> 
+													<li><a href="{% url 'library' username=member.user.username %}">Anime Library</a></li> 
+													<li><a href="{% url 'library_manga' username=member.user.username %}">Manga Library</a></li> 
+													
+                                            </ul> 
+                                            
+										</span>
+                                        {% if request.user.is_authenticated %}
+                                            <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//{{host|urlencode}}/users/{{request.user.username}}/library/"  target="_blank" >
+                                                <button class="btn btn-info">Share to Facebook</button>
+                                            </a>
+                                        {% endif %}
+									
+										
+                                <span class="tools pull-right">
+                                    
+									<div class="btn-row">						
+										<div class="btn-group nav-tabs" role="tablist" data-toggle="buttons">
+											<label id="opt1" class="btn btn-default active"  role="presentation">
+												<input type="radio" name="options" id="option1" autocomplete="off" checked> 
+												<a href="#all" aria-controls="all" role="tab" data-toggle="tab">All</a>
+											</label>
+											<label id="opt2" class="btn btn-default">
+												<input type="radio" name="options" id="option2" autocomplete="off">
+												<a href="#bliss" aria-controls="bliss" role="tab" data-toggle="tab">Bliss</a>
+											</label>
+											<label id="opt3" class="btn btn-default">
+												<input type="radio" name="options" id="option3" autocomplete="off">
+												<a href="#life" aria-controls="life" role="tab" data-toggle="tab">Life</a>
+											</label>
+											<label id="opt4" class="btn btn-default">
+												<input type="radio" name="options" id="option3" autocomplete="off"> 
+												<a href="#hope" aria-controls="hope" role="tab" data-toggle="tab">Hope</a>
+											</label>
+											<label id="opt5" class="btn btn-default">
+												<input type="radio" name="options" id="option3" autocomplete="off"> 
+												<a href="#agony" aria-controls="agony" role="tab" data-toggle="tab">Agony</a>
+											</label>
+										</div>
+										<script>
+											
+												$('#opt1').click(function() {								  												 
+													 $( '#opt1 a' ).trigger( "click" );
+												});
+												$('#opt2').click(function() {								  												 
+													 $( '#opt2 a' ).trigger( "click" );
+												});
+												$('#opt3').click(function() {								  												 
+													 $( '#opt3 a' ).trigger( "click" );
+												});
+												$('#opt4').click(function() {								  												 
+													 $( '#opt4 a' ).trigger( "click" );
+												});
+												$('#opt5').click(function() {								  												 
+													 $( '#opt5 a' ).trigger( "click" );
+												});
+											
+										</script>
+									</div>						                                        
+                                    
+    
+                                 </span>
+                                 </div>
+                                </header>
+                                
+							{% block panel %}
+                                <div class="panel-body tab-content">
+                                    											
+									<div class="table-responsive tab-pane active" id="all" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/bliss.html' %}				
+										</table> 				
+										<table class="table"> 					
+											{% include 'User/table/life.html' %}				
+										</table>
+										<table class="table"> 
+											{% include 'User/table/hope.html' %}
+										</table>
+										<table class="table"> 
+											{% include 'User/table/agony.html' %}
+										</table>
+									</div><!--"table-responsive"-->
+									<div class="table-responsive tab-pane" id="bliss" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/bliss.html' %}				
+										</table> 				
+										
+									</div><!--"table-responsive"-->
+									<div class="table-responsive tab-pane" id="life" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/life.html' %}				
+										</table> 				
+										
+									</div><!--"table-responsive"-->
+									<div class="table-responsive tab-pane" id="hope" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/hope.html' %}				
+										</table> 				
+										
+									</div><!--"table-responsive"-->
+									<div class="table-responsive tab-pane" id="agony" role="tabpanel">
+										<table class="table"> 
+											<thead> 
+												<tr> 
+													<th>Title</th> 													
+													<th></th> 
+													<th>Ratings</th> 
+													<th>Type</th> 
+												</tr> 
+											</thead>
+											{% include 'User/table/agony.html' %}				
+										</table> 				
+										
+									</div><!--"table-responsive"-->
+									
+									
+									                                    
+                                </div><!--"panel-body"-->
+                                {% endblock %}
+                            </section>
+                        </div>
+                    </div>
+				</div>
+			</div> <!--end row clearfix -->
+        </div>
+    </div>      
+    
+    
+    {% endblock %}

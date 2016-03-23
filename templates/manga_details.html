@@ -1,0 +1,343 @@
+{% extends 'base_menu.html' %}
+{% load ratings_tags %}
+
+{% block css %}
+
+    <link href="{{ MEDIA_URL }}css/style2.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/bootstrap-reset.css" rel="stylesheet">
+
+    <link href="{{ MEDIA_URL }}css/style-responsive.css" rel="stylesheet" />
+    <link href="{{ MEDIA_URL }}css/anime-style.css" rel="stylesheet" />
+
+{% endblock %}
+
+{% block js %}
+<script>
+        
+        
+        function daikirai(manga_id){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'daikirai' %}",
+                data: {
+                    'username': "{{request.user.username}}",
+                    'manga_id': manga_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#daikirai').hide();
+                    $('#daisuki').show();
+                    $.notify("Added to your daikirailist", "danger");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+		
+		function daisuki(manga_id){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'daisuki' %}",
+                data: {
+                    'username': "{{request.user.username}}",
+                    'manga_id': manga_id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#daisuki').hide();
+                    $('#daikirai').show();
+                    $.notify("Added to your daisukilist", "info");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+        
+        function readinglist(manga_id, status){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'readinglist' %}",
+                data: {
+                    'username': "{{request.user.username}}",
+                    'manga_id': manga_id,
+                    'status': status,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+                    $('#readinglist').html(status+'<span class="caret"></span>');
+                    
+                    $.notify("Added to your readinglist as "+ status, "default");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+        
+        
+    </script>
+
+
+{% endblock %}
+
+{% block body%}
+    <!--Main Slider-->
+    {% with manga_data as i %}
+        <section class="page-title anime-cover" style="background-image: url({{ MEDIA_URL }}{{i.cover}});">
+        </section>
+
+
+    <div class="sidebar-page">
+        <div class="auto-container">
+            <div class="row clearfix" style="margin-top:-20px;">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" id="formAnimes">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <div class="panel-body">
+                                    <div class="col-md-4 col-sm-6 col-xs-12" style="margin:-5px 0 0 -20px;">
+                                        <!--Image-->
+                                        <figure class="image">
+                                            <a href="#" class="lightbox-image"
+                                               title="Awsome Title Here"><img src="{{ MEDIA_URL }}{{i.displaypic}}" alt="" width="215" height="311" style="border-radius:5px;"></a>
+                                        </figure>
+                                    </div>
+
+                                    <div class="col-md-8 col-sm-6 col-xs-12">
+                                        <!--Content-Column-->
+                                        <div class="cont-column">
+                                            <div class="inner-box">
+                                                <h3 class="anime-title"><a href="#">{{i.name}}</a></h3>
+
+                                                
+                                                <div class="description anime-desc" >
+                                                    {{i.synopsys}}
+                                                </div>
+                                                <div class="sidebar">
+                                                    <div class="popular-tags">
+                                                        <div class="sidebar-title">
+                                                            <h2 class="anime-tags">Genres</h2>
+                                                        </div>
+                                                        <div class="tags">
+                                                            {% for genre in i.genre.all %}
+                                                                <a href="#">{{genre.genre_type}}</a>
+                                                            {% endfor %}
+                                                        </div>                                                                                  											                                                        
+                                                    </div>
+                                                </div>
+                                                {% if request.user.is_authenticated %}
+                                                
+													{% get_rating_form for i as rating_form %}
+													<form id="rate-form">
+														{% csrf_token %}
+														{{ rating_form }}
+														
+													</form>
+													<div id="ratings-average">
+														{% get_rating_score for i as score %}
+														{% if score %}
+															Average ratings: {{ score.average|floatformat }}<br>
+															Number of votes: {{ score.num_votes }}<br>
+														{% else %}
+															How sad: nobody voted {{ film }}<br>
+														{% endif %}
+													</div>
+													<div class="btn-group">
+														<button id="readinglist" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+															{% if readinglist %} {{readinglist.status}} {% else %}Add to Readinglist {% endif %} <span class="caret"></span></button>
+														<ul role="menu" class="dropdown-menu">
+															<li><a href="#watchlist" onclick="readinglist({{i.id}},'Bliss')">Bliss</a></li>
+															<li><a href="#watchlist" onclick="readinglist({{i.id}},'Life')">Life</a></li>
+															<li><a href="#watchlist" onclick="readinglist({{i.id}},'Hope')">Hope</a></li>														
+															<li><a href="#watchlist" onclick="readinglist({{i.id}},'Agony')">Agony</a></li>
+														</ul>
+													</div><!--btn-group-->
+													<div class="btn-group">													
+														<button {% if daisuki %} style="display:none;" {% endif %}  id="daisuki" class="btn btn-info" onclick="daisuki({{i.id}})" type="button">
+															Add to Daisukilist </button>
+													</div><!--btn-group-->
+													
+													<div id="daikirai" class="btn-group">													
+														<button {% if daikirai %} style="display:none;" {% endif %} class="btn btn-danger" onclick="daikirai({{i.id}})" type="button">
+															Add to Daikirailist </button>
+													</div><!--btn-group-->
+												{% endif %}
+												
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <div class="panel-body">
+									<div class="cont-column">
+										<div class="inner-box">
+											<h3>Character</h3><hr/>
+											<div class="row">
+											
+                                                {% for character in i.charactermanga_set.all %}                                                
+													
+													<div class="col-md-4">
+														<a href ="{% url 'manga_character' slug=i.slug id=character.id %}">
+														{{character.name}}</a>
+														{% if character.picture %}
+															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}{{character.picture}}" alt="">
+														{% else %}
+															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
+														{% endif %}
+													</div>           
+													
+												{% endfor %}	 										
+											                                                                            
+                                        </div>
+                                     </div>
+                                 </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                    <section class="panel panel-default  post-comments">
+                        <div class="panel-heading">
+							Top Latest Comments
+							<div class="pull-right">
+								<a href="{% url 'manga_reviews' slug=i.slug %}">View All </a>								
+                            </div>
+                        </div>
+                        <div id="panel-comments" class="panel-body">
+                            {% if commentmangas %}
+							{% for review in commentmangas|slice:":3" %}
+							<div class="media p15">
+								<a class="pull-left" href="{% url 'users' username=review.user.user.username %}">
+									{% if review.user.m_picture %}
+										<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}{{review.user.m_picture}}" alt="">
+									{% else %}
+										<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
+									{% endif %}
+								</a>
+								
+								<div class="comment">
+									<div class="comment-author h6 no-m">
+										<a href="{% url 'users' username=review.user.user.username %}"><b>{{review.user.user.username}}</b></a>
+									</div>
+									<div class="comment-meta small">{{review.added}}</div>
+									<p>
+										{{review.comment}}
+									</p>
+									
+									<p class="small">
+										<a id="heart-{{review.id}}" class="mr10"><i class="fa fa-heart-o mr5"></i><span id="like-{{review.id}}">{{review.votes.count}} </span> Likes</a>										
+									</p>
+									<script>
+										
+											$.get("{% url 'show_likes' entity='manga' id=review.id %}", function(data, status){						
+												
+												if (data.voted){
+													$('#heart-{{review.id}}').addClass('text-danger');											
+												}
+											});
+										
+									</script>
+									<hr>
+								</div>
+							</div>
+							{% endfor %}
+                            {% endif %}
+                            
+							{% if request.user.is_authenticated %}											
+
+								<form method="POST" action="{% url 'manga_reviews_add' slug=i.slug %}">
+                                    <div class="form-group">
+										{% csrf_token %}
+                                        <textarea class="form-control" rows="3" placeholder="Add Comment..." name="comment"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">POST</button>
+                                </form>
+                             {% endif %}
+                        </div>
+                        
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script type="text/javascript">
+        $(document).ready(function() {
+			$('#id_score').addClass('rating');
+			$('#id_score').attr('type', 'hidden');
+		});
+		
+		 $("#rate-form").click(function() {
+                rate();
+          });
+          
+          function rate(){
+            
+            $.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'ratings_vote' %}",
+                data: {
+					'honeypot': $('#id_honeypot').val(),
+					'security_hash': $('#id_security_hash').val(),
+					'timestamp': $('#id_timestamp').val(),
+					'key': $('#id_key').val(),
+					'object_pk': $('#id_object_pk').val(),
+					'content_type': $('#id_content_type').val(),
+					'score': $('#id_score').val(),
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){
+					$.get("{% url 'ratings_average' entity='manga' id=i.id %}", function(data, status){
+						
+						$('#ratings-average').html(data)
+					});
+                    $.notify("Rated "+ status, "default");
+                    setTimeout('RedirectUpdate()', 2000);
+                }
+            });
+        }
+        
+        $("#panel-comments").on('click', 'a[id^=heart-]', function(){
+			var id = $(this).attr('id').split('-')[1];
+			$.ajax({
+                type: "POST",
+                cache: false,
+                url: "{% url 'likes' entity='manga' %}",
+                data: {					
+					'username': '{{request.user}}',
+					'id': id,
+                    'csrfmiddlewaretoken': '{{csrf_token}}'
+                },
+                success:function(response){				
+					voted = response.voted 																
+                    $('#like-'+id).text(response.total_votes);
+                    if (voted){
+						$('#heart-'+id).addClass('text-danger');
+						$.notify("Liked", "info");
+					}
+					else{
+						$('#heart-'+id).removeClass('text-danger');
+						$.notify("Unliked", "default");
+					}
+                    
+                    setTimeout('RedirectUpdate()', 2000);
+                    
+                }
+            });
+			
+		});
+	</script>
+	
+	
+    {% endwith %}
+
+{% endblock %}
