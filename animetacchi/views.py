@@ -25,30 +25,13 @@ from django.db.models import Q, Count
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 
-import re
-import string
-import pycountry
-import os
-import commands
-import json
-import whois
 import uuid
-import urllib2
-import urllib
-import string
-import calendar
-
-import random
-import base64
-import hashlib
-import hmac
 import simplejson
-import time as times
 
 
-from captcha.fields import CaptchaField
+
 from datetime import date, datetime, timedelta, time
-from django.utils.timezone import utc
+
 
 from animetacchi.models import *
 from service.tasks import send_email_task, send_sms_task, send_notification
@@ -67,7 +50,7 @@ def home(request):
     #substract_date = datetime.now() - timedelta(days=3)
     #anime_data = Anime.objects.filter(save_added__gte=substract_date)
     anime_data = Anime.objects.all()[:3]
-    index = News.objects.all()    
+    index = News.objects.all()
     return render_to_response('index.html',locals(),context_instance=RequestContext(request))
 
 def about(request):
@@ -135,14 +118,14 @@ def signup(request):
             json_data = {'alert': 'Sorry, email ' + email + ' has been used!!', 'val': False}
             return HttpResponse(simplejson.dumps(json_data), content_type="application/json")
         usr = User.objects.create_user(username=username,email=email,password=password)
-        usr.is_active = False # not active until he opens activation link        
+        usr.is_active = False # not active until he opens activation link
         usr.save()
         member = Members()
         member.user = usr
         member.m_name = username
         member.save()
         activation_key=str(uuid.uuid4())
-        
+
         new_profile = UserProfile(user=usr, activation_key=activation_key)
         new_profile.save()
         host=request.META['HTTP_HOST']
@@ -151,7 +134,7 @@ def signup(request):
         #48 hours http://{}/confirm/{}".format(username, host, activation_key)
         send_mail(email_subject, email_body, 'be-py@alviandk.com',[email], fail_silently=False)
         email_send_with_api(email_subject, email, email_body, fr=None)
-        json_data = {'alert': 'email_subject Success!!'}        
+        json_data = {'alert': 'email_subject Success!!'}
         return HttpResponse(simplejson.dumps(json_data), content_type="application/json")
     return render_to_response('signup.html',locals(),context_instance=RequestContext(request))
 
@@ -168,7 +151,7 @@ def register_confirm(request, activation_key):
     try:
         user_profile = UserProfile.objects.get(activation_key=activation_key)
     except:
-        return HttpResponseRedirect(reverse('home'))	
+        return HttpResponseRedirect(reverse('home'))
 
     #check if the activation key has expired, if it hase then render confirm_expired.html
     if user_profile.key_expires + timedelta(days=1) < timezone.now():
@@ -179,7 +162,7 @@ def register_confirm(request, activation_key):
     user.is_active = True
     user.save()
     return render_to_response('User/confirm.html',locals(),context_instance=RequestContext(request))
-    
+
 def anime(request):
     #Search Function
     if request.POST.get('action') == 'search':
@@ -247,7 +230,7 @@ def anime(request):
         return render_to_response('anime_data.html', locals(), context_instance=RequestContext(request))
 
     return render_to_response('anime.html',locals(),context_instance=RequestContext(request))
-    
+
 def manga(request):
     #Search Function
     if request.POST.get('action') == 'search':
@@ -318,8 +301,8 @@ def manga(request):
 
 def anime_details(request,slug):
     anime_data = Anime.objects.get(slug=slug)
-    commentanimes = CommentAnime.objects.filter(anime=anime_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')    
-    
+    commentanimes = CommentAnime.objects.filter(anime=anime_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')
+
     #c.votes.up(request.user)
     try:
 		members = Members.objects.get(user=request.user)
@@ -331,20 +314,20 @@ def anime_details(request,slug):
     except:
         daisuki = False
     try:
-		
+
         Daikirailist.objects.get(anime=anime_data, members=members)
         daikirai = True
     except:
         daikirai = False
     try:
-        watchlist=WatchList.objects.get(members=members, watchlist=anime_data)       
+        watchlist=WatchList.objects.get(members=members, watchlist=anime_data)
     except:
         watchlist = False
     return render_to_response('anime_details.html',locals(),context_instance=RequestContext(request))
 
 def manga_details(request,slug):
     manga_data = Manga.objects.get(slug=slug)
-    commentmangas = CommentManga.objects.filter(manga=manga_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')    
+    commentmangas = CommentManga.objects.filter(manga=manga_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')
     try:
 		members = Members.objects.get(user=request.user)
     except:
@@ -355,16 +338,16 @@ def manga_details(request,slug):
     except:
         daisuki = False
     try:
-		
+
         Daikirailist.objects.get(manga=manga_data, members=members)
         daikirai = True
     except:
         daikirai = False
     try:
-        watchlist=ReadingList.objects.get(members=members, readinglist=manga_data)       
+        watchlist=ReadingList.objects.get(members=members, readinglist=manga_data)
     except:
         watchlist = False
-    
+
     return render_to_response('manga_details.html',locals(),context_instance=RequestContext(request))
 
 
@@ -380,12 +363,12 @@ def anime_character(request,slug,id):
         daisuki = True
     except:
         daisuki = False
-    try:		
+    try:
         Daikirailist.objects.get(character=character, members=members)
         daikirai = True
     except:
         daikirai = False
-    
+
     return render_to_response('anime_character.html',locals(),context_instance=RequestContext(request))
 
 def manga_character(request,slug,id):
@@ -400,16 +383,16 @@ def manga_character(request,slug,id):
         daisuki = True
     except:
         daisuki = False
-    try:		
+    try:
         Daikirailist.objects.get(character_manga=character, members=members)
         daikirai = True
     except:
         daikirai = False
-    
+
     return render_to_response('manga_character.html',locals(),context_instance=RequestContext(request))
-    
+
 def anime_voice(request,id):
-    
+
     voice = VoiceCharacter.objects.get(id=id)
     try:
 		members = Members.objects.get(user=request.user)
@@ -428,22 +411,22 @@ def anime_reviews(request,slug):
 		member = Members.objects.get(user=request.user)
     except:
 		pass
-    commentanimes = CommentAnime.objects.filter(anime=anime_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')    
-    
-   
+    commentanimes = CommentAnime.objects.filter(anime=anime_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')
+
+
     return render_to_response('anime_reviews.html',locals(),context_instance=RequestContext(request))
 
 @login_required
 def anime_reviews_add(request,slug):
     anime_data = Anime.objects.get(slug=slug)
     member = Members.objects.get(user=request.user)
-    
+
 
     if request.method == "POST":
-		comment=CommentAnime.objects.create(comment=request.POST.get('comment'), user=member, anime=anime_data)				
+		comment=CommentAnime.objects.create(comment=request.POST.get('comment'), user=member, anime=anime_data)
 		comment.save()
-		return HttpResponseRedirect(reverse('anime_reviews',kwargs={'slug':anime_data.slug}))		
-    
+		return HttpResponseRedirect(reverse('anime_reviews',kwargs={'slug':anime_data.slug}))
+
     return render_to_response('anime_reviews_add.html',locals(),context_instance=RequestContext(request))
 
 
@@ -453,10 +436,10 @@ def manga_reviews(request,slug):
 		member = Members.objects.get(user=request.user)
     except:
 		pass
-    commentmangas = CommentManga.objects.filter(manga=manga_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')    
-    
-    
-    
+    commentmangas = CommentManga.objects.filter(manga=manga_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')
+
+
+
     return render_to_response('manga_reviews.html',locals(),context_instance=RequestContext(request))
 
 
@@ -464,13 +447,13 @@ def manga_reviews(request,slug):
 def manga_reviews_add(request,slug):
     manga_data = Manga.objects.get(slug=slug)
     member = Members.objects.get(user=request.user)
-    
+
 
     if request.method == "POST":
-		comment=CommentManga.objects.create(comment=request.POST.get('comment'), user=member, manga=manga_data)				
+		comment=CommentManga.objects.create(comment=request.POST.get('comment'), user=member, manga=manga_data)
 		comment.save()
-		return HttpResponseRedirect(reverse('manga_reviews',kwargs={'slug':manga_data.slug}))		
-    
+		return HttpResponseRedirect(reverse('manga_reviews',kwargs={'slug':manga_data.slug}))
+
     #return render_to_response('manga_reviews_add.html',locals(),context_instance=RequestContext(request))
 
 
@@ -482,7 +465,7 @@ def anime_chart(request,season):
     return render_to_response('anime_chart.html',locals(),context_instance=RequestContext(request))
 
 
-def users(request,username):    
+def users(request,username):
     if request.user.username == username:
         return HttpResponseRedirect(reverse('dashboard', kwargs={'username': username}))
     try:
@@ -523,10 +506,10 @@ def dashboard(request, username):
         return render_to_response('User/dashboard.html',locals(),context_instance=RequestContext(request))
     return HttpResponseRedirect(reverse('home'))
 
-def library(request,username):    
+def library(request,username):
 
-    
-        
+
+
         usr = User.objects.get(username=username)
         member = Members.objects.get(user=usr)
         bliss = WatchList.objects.filter(members=member,status='Bliss')
@@ -536,12 +519,12 @@ def library(request,username):
         host=request.META['HTTP_HOST']
         about_data = About.objects.filter(member=member.id)
         return render_to_response('User/library.html',locals(),context_instance=RequestContext(request))
-    
 
-def library_manga(request,username):    
 
-    
-        
+def library_manga(request,username):
+
+
+
         usr = User.objects.get(username=username)
         member = Members.objects.get(user=usr)
         bliss = ReadingList.objects.filter(members=member,status='Bliss')
@@ -549,51 +532,51 @@ def library_manga(request,username):
         hope = ReadingList.objects.filter(members=member,status='Hope')
         life = ReadingList.objects.filter(members=member,status='Life')
         host=request.META['HTTP_HOST']
-        
+
         about_data = About.objects.filter(member=member.id)
         return render_to_response('User/library-manga.html',locals(),context_instance=RequestContext(request))
-    
+
 
 
 def daikirai(request):
     #Search Function
-    
+
     if request.method=="POST":
-        
+
         username = request.POST.get('username')
         user = User.objects.get(username=username)
-        members = Members.objects.get(user=user)       
-        
+        members = Members.objects.get(user=user)
+
         try:
-            daikirai = Daikirailist.objects.get(members=members)            
+            daikirai = Daikirailist.objects.get(members=members)
         except:
             daikirai = Daikirailist.objects.create(members=members)
         try:
-            daisuki = Daisukilist.objects.get(members=members)            
+            daisuki = Daisukilist.objects.get(members=members)
         except:
             daisuki = Daisukilist.objects.create(members=members)
-        
+
         if request.POST.get('anime_id'):
 			anime_id = request.POST.get('anime_id')
-			anime = Anime.objects.get(id=int(anime_id))       
+			anime = Anime.objects.get(id=int(anime_id))
 			daikirai.anime.add(anime)
 			daisuki.anime.remove(anime)
         elif request.POST.get('manga_id'):
             manga_id = request.POST.get('manga_id')
-            manga = Manga.objects.get(id=int(manga_id))       
+            manga = Manga.objects.get(id=int(manga_id))
             daikirai.manga.add(manga)
             daisuki.manga.remove(manga)
         elif request.POST.get('character_id'):
             character_id = request.POST.get('character_id')
-            character = Character.objects.get(id=int(character_id))       
+            character = Character.objects.get(id=int(character_id))
             daikirai.character.add(character)
             daisuki.character.remove(character)
         elif request.POST.get('character_manga_id'):
             character_manga_id = request.POST.get('character_manga_id')
-            character_manga = CharacterManga.objects.get(id=int(character_manga_id))       
+            character_manga = CharacterManga.objects.get(id=int(character_manga_id))
             daikirai.character_manga.add(character_manga)
             daisuki.character_manga.remove(character_manga)
-        
+
         daikirai.save()
         daisuki.save()
 
@@ -602,48 +585,48 @@ def daikirai(request):
 
 def daisuki(request):
     #Search Function
-    
+
     if request.method=="POST":
-        
+
         username = request.POST.get('username')
         user = User.objects.get(username=username)
-        members = Members.objects.get(user=user)       
-        
+        members = Members.objects.get(user=user)
+
         try:
-            daikirai = Daikirailist.objects.get(members=members)            
+            daikirai = Daikirailist.objects.get(members=members)
         except:
             daikirai = Daikirailist.objects.create(members=members)
         try:
-            daisuki = Daisukilist.objects.get(members=members)            
+            daisuki = Daisukilist.objects.get(members=members)
         except:
             daisuki = Daisukilist.objects.create(members=members)
-        
+
         if request.POST.get('anime_id'):
 			anime_id = request.POST.get('anime_id')
-			anime = Anime.objects.get(id=int(anime_id))       
+			anime = Anime.objects.get(id=int(anime_id))
 			daisuki.anime.add(anime)
 			daikirai.anime.remove(anime)
         elif request.POST.get('manga_id'):
             manga_id = request.POST.get('manga_id')
-            manga = Manga.objects.get(id=int(manga_id))       
+            manga = Manga.objects.get(id=int(manga_id))
             daisuki.manga.add(manga)
             daikirai.manga.remove(manga)
         elif request.POST.get('character_id'):
             character_id = request.POST.get('character_id')
-            character = Character.objects.get(id=int(character_id))       
+            character = Character.objects.get(id=int(character_id))
             daisuki.character.add(character)
             daikirai.character.remove(character)
         elif request.POST.get('character_manga_id'):
             character_manga_id = request.POST.get('character_manga_id')
-            character_manga = CharacterManga.objects.get(id=int(character_manga_id))       
+            character_manga = CharacterManga.objects.get(id=int(character_manga_id))
             daisuki.character_manga.add(character_manga)
             daikirai.character_manga.remove(character_manga)
         elif request.POST.get('voice_id'):
             voice_id = request.POST.get('voice_id')
-            voice = VoiceCharacter.objects.get(id=int(voice_id))       
+            voice = VoiceCharacter.objects.get(id=int(voice_id))
             daisuki.voice_character.add(voice)
-			
-			        
+
+
         daikirai.save()
         daisuki.save()
 
@@ -652,66 +635,66 @@ def daisuki(request):
 
 def watchlist(request):
     #Search Function
-    
+
     if request.method=="POST":
-        
+
         username = request.POST.get('username')
         user = User.objects.get(username=username)
-        members = Members.objects.get(user=user)       
+        members = Members.objects.get(user=user)
         anime_id = request.POST.get('anime_id')
-        anime = Anime.objects.get(id=int(anime_id))       
-        
+        anime = Anime.objects.get(id=int(anime_id))
+
         try:
-            watchlist = WatchList.objects.get(members=members,watchlist=anime)            
+            watchlist = WatchList.objects.get(members=members,watchlist=anime)
         except:
-            watchlist = WatchList.objects.create(members=members,watchlist=anime)        
-        
+            watchlist = WatchList.objects.create(members=members,watchlist=anime)
+
         watchlist.status=request.POST.get('status')
-			
+
         watchlist.save()
 
         return HttpResponse("success")
 
 def readinglist(request):
     #Search Function
-    
+
     if request.method=="POST":
-        
+
         username = request.POST.get('username')
         user = User.objects.get(username=username)
-        members = Members.objects.get(user=user)       
+        members = Members.objects.get(user=user)
         manga_id = request.POST.get('manga_id')
-        manga = Manga.objects.get(id=int(manga_id))       
-        
+        manga = Manga.objects.get(id=int(manga_id))
+
         try:
-            readinglist = ReadingList.objects.get(members=members,readinglist=manga)            
+            readinglist = ReadingList.objects.get(members=members,readinglist=manga)
         except:
-            readinglist = ReadingList.objects.create(members=members, readinglist=manga)        
-        
+            readinglist = ReadingList.objects.create(members=members, readinglist=manga)
+
         readinglist.status=request.POST.get('status')
-			
+
         readinglist.save()
 
         return HttpResponse("success")
 
 def ratings_average(request, entity, id):
-    
+
     if entity == 'anime':
         entities = Anime.objects.get(id=int(id))
     elif entity == 'manga':
-        entities = Manga.objects.get(id=int(id))			
+        entities = Manga.objects.get(id=int(id))
     elif entity == 'character':
-        entities = Character.objects.get(id=int(id))			
+        entities = Character.objects.get(id=int(id))
     elif entity == 'character_manga':
-        entities = CharacterManga.objects.get(id=int(id))			
+        entities = CharacterManga.objects.get(id=int(id))
     elif entity == 'voice':
-        entities = VoiceCharacter.objects.get(id=int(id))			
-        
+        entities = VoiceCharacter.objects.get(id=int(id))
+
     return render_to_response('ratings_average.html',locals(),context_instance=RequestContext(request))
 
-def likes(request, entity):    
-        
-    if request.method=="POST":        
+def likes(request, entity):
+
+    if request.method=="POST":
         username = request.POST.get('username')
         id = request.POST.get('id')
         user = User.objects.get(username=username)
@@ -723,50 +706,50 @@ def likes(request, entity):
                 entities = CommentAnime.objects.create(id=int(id))
         elif entity == 'manga':
             try:
-                entities = CommentManga.objects.get(id=int(id))			
+                entities = CommentManga.objects.get(id=int(id))
             except:
-                entities = CommentManga.objects.create(id=int(id))    
-    
+                entities = CommentManga.objects.create(id=int(id))
+
         voted = entities.votes.exists(user)
         if voted:
             entities.votes.down(user)
         else:
             entities.votes.up(user)
-        voted = entities.votes.exists(user)		
+        voted = entities.votes.exists(user)
         total_votes = entities.votes.count()
-		
+
         json_data = {'voted': voted, 'total_votes': total_votes}
-        
+
         return HttpResponse(simplejson.dumps(json_data), content_type="application/json")
 
-def show_likes(request, entity, id):    
-        
-    username = request.user    
+def show_likes(request, entity, id):
+
+    username = request.user
     user = User.objects.get(username=username)
     members = Members.objects.get(user=user)
     print user
     if entity == 'anime':
         entities = CommentAnime.objects.get(id=int(id))
-        
+
     elif entity == 'manga':
-        entities = CommentManga.objects.get(id=int(id))			        
-    
-    voted = entities.votes.exists(user)		    
-    
+        entities = CommentManga.objects.get(id=int(id))
+
+    voted = entities.votes.exists(user)
+
     json_data = {'voted': voted}
-        
+
     return HttpResponse(simplejson.dumps(json_data), content_type="application/json")
 
 
 def sort_comment(request):
-    
-    
+
+
     if request.method=="POST":
-        
-        by = request.POST.get('by')                
+
+        by = request.POST.get('by')
         anime_id = request.POST.get('anime_id')
-        anime_data = Anime.objects.get(id=int(anime_id))       
-        
+        anime_data = Anime.objects.get(id=int(anime_id))
+
         if by == 'likes':
             commentanimes = CommentAnime.objects.filter(anime=anime_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')
         elif by == 'time':
@@ -775,14 +758,14 @@ def sort_comment(request):
         return render_to_response('sort-comment.html',locals(),context_instance=RequestContext(request))
 
 def sort_comment_manga(request):
-    
-    
+
+
     if request.method=="POST":
-        
-        by = request.POST.get('by')                
+
+        by = request.POST.get('by')
         manga_id = request.POST.get('manga_id')
-        manga_data = Manga.objects.get(id=int(manga_id))       
-        
+        manga_data = Manga.objects.get(id=int(manga_id))
+
         if by == 'likes':
             commentmangas = CommentManga.objects.filter(manga=manga_data).annotate(likes=Count('votes')).order_by('-likes','-edited','-added')
         elif by == 'time':
@@ -790,14 +773,14 @@ def sort_comment_manga(request):
 
         return render_to_response('sort-comment-manga.html',locals(),context_instance=RequestContext(request))
 
-def search_comment(request):    
-    
+def search_comment(request):
+
     if request.method=="POST":
-                               
+
         if request.POST.get('anime_id'):
 			anime_id = request.POST.get('anime_id')
 			search_val = request.POST.get('search')
-			anime_data = Anime.objects.get(id=int(anime_id))              
+			anime_data = Anime.objects.get(id=int(anime_id))
 			commentanimes = CommentAnime.objects.filter(anime=anime_data, comment__icontains=search_val).order_by('-edited','-added')
 			if not commentanimes:
 				return HttpResponse("<h4>Sorry no data</h4>")
@@ -805,7 +788,7 @@ def search_comment(request):
         elif request.POST.get('manga_id'):
 			manga_id = request.POST.get('manga_id')
 			search_val = request.POST.get('search')
-			manga_data = Manga.objects.get(id=int(manga_id))              
+			manga_data = Manga.objects.get(id=int(manga_id))
 			commentmangas = CommentManga.objects.filter(manga=manga_data, comment__icontains=search_val).order_by('-edited','-added')
 			if not commentmangas:
 				return HttpResponse("<h4>Sorry no data</h4>")
@@ -815,17 +798,17 @@ def search_comment(request):
 def request_edit(request):
 
     if request.method=="POST":
-                             
+
         if request.POST.get('anime_id'):
 			anime_id = request.POST.get('anime_id')
 			synopsis = request.POST.get('synopsis')
 			start = request.POST.get('synopsis')
 			end = request.POST.get('end')
 			content = "synopsis: {} \nstart: {} \nend: {}".format(synopsis, start, end)
-			anime = Anime.objects.get(id=int(anime_id))           
-			username = request.POST.get('username')			
+			anime = Anime.objects.get(id=int(anime_id))
+			username = request.POST.get('username')
 			user = User.objects.get(username=username)
-			members = Members.objects.get(user=user)   
+			members = Members.objects.get(user=user)
 			requestedit= RequestAnime.objects.create(content=content, user=members, anime=anime)
 			requestedit.save()
 			return render_to_response('sort-comment.html',locals(),context_instance=RequestContext(request))
