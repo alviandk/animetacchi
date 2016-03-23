@@ -37,7 +37,7 @@ import urllib2
 import urllib
 import string
 import calendar
-import logging
+
 import random
 import base64
 import hashlib
