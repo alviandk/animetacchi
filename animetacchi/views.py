@@ -39,13 +39,6 @@ from service.tasks import send_email_task, send_sms_task, send_notification
 
 from restclient import POST
 
-def email_send_with_api(subject, to, msg, fr=None):
-	if not fr:
-		fr = 'Animetacchi'
-	url= 'http://www.tokowebku.com/api/email_sender/'
-	form_fields = {'from': fr, 'subject': subject, 'to': to, 'msg': msg}
-	result = POST(url, async=False, params=form_fields)
-	return result
     
 @never_cache
 def forgot_password(request):
@@ -170,10 +163,10 @@ def signup(request):
         new_profile.save()
         host=request.META['HTTP_HOST']
         email_subject = 'Account confirmation'
-        #email_body = "Hey {}, thanks for signing up. To activate your account, click this link within \
-        #48 hours http://{}/confirm/{}".format(username, host, activation_key)
+        email_body = "Hey {}, thanks for signing up. To activate your account, click this link within \
+        48 hours http://{}/confirm/{}".format(username, host, activation_key)
         send_mail(email_subject, email_body, 'be-py@alviandk.com',[email], fail_silently=False)
-        email_send_with_api(email_subject, email, email_body, fr=None)
+        
         json_data = {'alert': 'email_subject Success!!'}
         return HttpResponse(simplejson.dumps(json_data), content_type="application/json")
     return render_to_response('signup.html',locals(),context_instance=RequestContext(request))
