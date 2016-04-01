@@ -117,7 +117,7 @@ DEFAULT_BREAKPOINTS = {
 }
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH, 'templates')
+    os.path.join(PROJECT_PATH, 'templates'),
 )
 
 # Python dotted path to the WSGI application used by Django's runserver.
