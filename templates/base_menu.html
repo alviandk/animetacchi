@@ -45,9 +45,11 @@
                 <div class="outer-box clearfix" style="margin-top:-10px;">
 
                     <!-- Logo -->
-                    <div style="position:absolute;padding-top:20px;">
+                    {% block logo %}
+                    <div style="position:absolute;padding-top:35px;">
                         <a href="{% url 'home' %}"><span><h3 style="color:#fff;">Animetacchi</h3></span></a>
                     </div>
+                    {% endblock %}
 
                     <!--Search Btn
                     <div class="search-box-btn"><span class="icon fa fa-search"></span></div>

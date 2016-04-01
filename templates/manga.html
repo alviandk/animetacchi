@@ -78,6 +78,12 @@
     </script>
 {% endblock %}
 
+
+                    {% block logo %}
+                    <div style="position:absolute;padding-top:20px;">
+                        <a href="{% url 'home' %}"><span><h3 style="color:#fff;">Animetacchi</h3></span></a>
+                    </div>
+                    {% endblock %}
 {% block body%}
     
     <div class="sidebar-page shop-page">
