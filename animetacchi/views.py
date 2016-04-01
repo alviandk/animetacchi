@@ -24,11 +24,12 @@ from django.contrib.auth import authenticate, login
 from django.db.models import Q, Count
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
+from django.views.decorators.cache import never_cache
+from django.contrib.auth.views import password_reset, password_reset_done, password_reset_confirm, password_reset_complete
+
 
 import uuid
 import simplejson
-
-
 
 from datetime import date, datetime, timedelta, time
 
@@ -45,6 +46,45 @@ def email_send_with_api(subject, to, msg, fr=None):
 	form_fields = {'from': fr, 'subject': subject, 'to': to, 'msg': msg}
 	result = POST(url, async=False, params=form_fields)
 	return result
+    
+@never_cache
+def forgot_password(request):
+    if not request.user.is_authenticated():
+        return return_reset_password(request)
+    else:
+        return HttpResponseRedirect("/")
+        
+def return_reset_password(request):
+    return password_reset(request, template_name='User/forgot.html', \
+                  email_template_name='User/forgot_email.html', \
+                  post_reset_redirect='/password_reset/done/',
+                  )
+                  
+def cust_password_reset_done(request):
+    if not request.user.is_authenticated():
+        return password_reset_done(request,  template_name='User/password_reset_done.html')
+    else:
+        return HttpResponseRedirect("/")
+
+
+@never_cache
+def cust_password_reset_confirm(request, uidb36=None, token=None):
+    if not request.user.is_authenticated():
+        return password_reset_confirm(request, uidb36=uidb36, token=token, \
+        template_name='User/password_reset_confirm.html', \
+        post_reset_redirect='/reset/done/')
+    else:
+        return HttpResponseRedirect("/")
+
+
+def cust_password_reset_complete(request):
+    if not request.user.is_authenticated():
+        return password_reset_complete(request,
+        template_name='User/password_reset_complete.html')
+    else:
+        return HttpResponseRedirect("/")
+
+
 
 def home(request):
     #substract_date = datetime.now() - timedelta(days=3)

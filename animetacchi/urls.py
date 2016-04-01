@@ -52,6 +52,11 @@ urlpatterns = patterns('',
     url(r'^users/(?P<username>[a-zA-Z\-\_0-9]+)/$', 'animetacchi.views.users', name='users'),
     url(r'^users/(?P<username>[a-zA-Z\-\_0-9]+)/library/$', 'animetacchi.views.library', name='library'),    
     url(r'^users/(?P<username>[a-zA-Z\-\_0-9]+)/library/manga/$', 'animetacchi.views.library_manga', name='library_manga'),
+    url(r'^forgot-password/$', 'animetacchi.views.forgot_password', name='forgot-password'),
+    url(r'^password_reset/done/$', 'animetacchi.views.cust_password_reset_done'),
+    url(r'^reset/(?P<uidb36>[-\w]+)/(?P<token>[-\w]+)/$', 'animetacchi.views.cust_password_reset_confirm'),
+    url(r'^reset/done/$', 'animetacchi.views.cust_password_reset_complete'),
+
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),

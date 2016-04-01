@@ -124,12 +124,12 @@ TEMPLATE_DIRS = (
 WSGI_APPLICATION = 'animetacchi.wsgi.application'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'belajarpython101@gmail.com'
+EMAIL_HOST_PASSWORD = 'wedontt4lk4boutphp'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'medusa.hideserver.net'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'be-py@alviandk.com'
-EMAIL_HOST_PASSWORD = 'be-pyp4ssword'
-DEFAULT_FROM_EMAIL = 'Default Web <be-py@alviandk.com>'
+DEFAULT_FROM_EMAIL='(Backend) bepy <no-reply@backend.com>'
 
 
 # compression setup
