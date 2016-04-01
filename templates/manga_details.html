@@ -182,7 +182,12 @@
 											<h3>Character</h3><hr/>
 											<div class="row">
 											
-                                                {% for character in i.charactermanga_set.all %}                                                
+                                                {% for character in i.charactermanga_set.all %}    
+                                                    {% if forloop.counter|divisibleby:4 %}
+                                                    </div>
+                                                    </br>
+                                                    <div class="row">
+                                                    {% endif %}
 													
 													<div class="col-md-4">
 														<a href ="{% url 'manga_character' slug=i.slug id=character.id %}">
@@ -192,7 +197,10 @@
 														{% else %}
 															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
 														{% endif %}
-													</div>           
+													</div>     
+                                                    {% if forloop.counter|divisibleby:4 %}
+                                                        
+                                                    {% endif %}      
 													
 												{% endfor %}	 										
 											                                                                            
