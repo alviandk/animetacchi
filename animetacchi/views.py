@@ -190,7 +190,7 @@ def anime(request):
     if request.POST.get('action') == 'checkbox':
         anime_check = json.loads(request.POST.get('anime_check'))
         if len(anime_check) > 0:
-            anime_data = Anime.objects.filter(a_genre__in=anime_check).distinct('a_name')
+            anime_data = Anime.objects.filter(a_genre__in=anime_check)#.distinct('a_name')
         else:
             anime_data = Anime.objects.all().order_by('a_name')
 
@@ -235,7 +235,7 @@ def manga(request):
     #Search Function
     if request.POST.get('action') == 'search':
         search_val = request.POST.get('search_value')
-        manga_data = Manga.objects.filter(a_name__contains=search_val).order_by('name')
+        manga_data = Manga.objects.filter(name__contains=search_val).order_by('name')
 
         paginator = Paginator(manga_data, 10)
         try:
@@ -258,7 +258,7 @@ def manga(request):
     if request.POST.get('action') == 'checkbox':
         manga_check = json.loads(request.POST.get('manga_check'))
         if len(manga_check) > 0:
-            manga_data = Manga.objects.filter(a_genre__in=manga_check).distinct('name')
+            manga_data = Manga.objects.filter(genre__in=manga_check)#.distinct('name')
         else:
             manga_data = Manga.objects.all().order_by('name')
 
