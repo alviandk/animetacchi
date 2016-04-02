@@ -57,10 +57,11 @@
 {% block body%}
     <!--Main Slider-->
     <section class="page-title"
-             style="background-image: url({{ MEDIA_URL }}{{member.m_cover}}); width:100%;height:400px;">
+             style="background-image: url({{ MEDIA_URL }}MembersCover/default_cover.png); width:100%;height:400px;">
         <div class="auto-container">
             <div class="row clearfix">
                 <div class="col-lg-6 col-xs-12" style="position:absolute;bottom:30px;">
+                    <!--
                     <div class="proPic">
                         <a href="#">
 							{% if member.m_picture %}
@@ -73,11 +74,11 @@
                         </a>
 
                         {% if member.user == request.user %}
-							<!--<div class="redO"><a href="#" class="fa fa-camera"> Update Picture</a></div>-->
-							<h2 style="padding-left:15px;"> {{member.m_name}}</h2>
+							<!--<div class="redO"><a href="#" class="fa fa-camera"> Update Picture</a></div>
+							<h2> {{member.m_name}}</h2>
                         {% else %}
 							
-							<h2 style="padding-left:15px;" > {{member.m_name}}</h2>
+							<h2> {{member.m_name}}</h2>
 							
                         {% endif %}
                         
@@ -91,6 +92,7 @@
                     </figure>
 
                 </div>
+                -->
 
             </div>
         </div>
