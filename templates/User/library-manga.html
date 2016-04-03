@@ -1,5 +1,12 @@
 {% extends 'User/library.html' %}
 	{% block caret %} Manga Library {% endblock %}
+    {% block share %}
+                                            {% if request.user.is_authenticated %}
+                                                <a onclick="return popitup('https://www.facebook.com/sharer/sharer.php?u=http%3A//{{host|urlencode}}/users/{{request.user.username}}/library/manga/')" >
+                                                    <button class="btn btn-info">Share to Facebook</button>
+                                                </a>
+                                            {% endif %}
+                                        {% endblock %}
 	{% block panel %}
                                 <div class="panel-body tab-content">
                                     											

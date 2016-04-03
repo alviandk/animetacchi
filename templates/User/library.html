@@ -34,11 +34,13 @@
                                             </ul> 
                                             
 										</span>
-                                        {% if request.user.is_authenticated %}
-                                            <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//{{host|urlencode}}/users/{{request.user.username}}/library/"  target="_blank" >
-                                                <button class="btn btn-info">Share to Facebook</button>
-                                            </a>
-                                        {% endif %}
+                                        {% block share %}
+                                            {% if request.user.is_authenticated %}
+                                                <a onclick="return popitup('https://www.facebook.com/sharer/sharer.php?u=http%3A//{{host|urlencode}}/users/{{request.user.username}}/library/')" >
+                                                    <button class="btn btn-info">Share to Facebook</button>
+                                                </a>
+                                            {% endif %}
+                                        {% endblock %}
 									
 										
                                 <span class="tools pull-right">
@@ -186,5 +188,15 @@
         </div>
     </div>      
     
-    
+    <script language="javascript" type="text/javascript">
+    <!--
+    function popitup(url) {
+        newwindow=window.open(url,'name','height=200,width=150');
+        if (window.focus) {newwindow.focus()}
+        return false;
+    }
+
+    // -->
+    </script>
+
     {% endblock %}
