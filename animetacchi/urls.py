@@ -49,6 +49,7 @@ urlpatterns = patterns('',
     
     # user
     url(r'^dashboard/(?P<username>[-\w.]+)/$', 'animetacchi.views.dashboard', name='dashboard'),
+    url(r'^upload_pic/$', 'animetacchi.views.upload_pic', name='upload_pic'),
     url(r'^users/(?P<username>[-\w.]+)/$', 'animetacchi.views.users', name='users'),
     url(r'^users/(?P<username>[-\w.]+)/library/$', 'animetacchi.views.library', name='library'),    
     url(r'^users/(?P<username>[-\w.]+)/library/manga/$', 'animetacchi.views.library_manga', name='library_manga'),

@@ -22,6 +22,34 @@
             opacity:0.7;
             padding: 0 0 0 5px;
         }
+        .custom-file-input {
+          color: transparent;
+        }
+        .custom-file-input::-webkit-file-upload-button {
+          visibility: hidden;
+        }
+        .custom-file-input::before {
+          content: 'Upload Image';
+          color: black;
+          display: inline-block;
+          background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);          
+          
+          outline: none;
+          white-space: nowrap;
+          -webkit-user-select: none;
+          cursor: pointer;
+          text-shadow: 1px 1px #fff;
+          
+        }
+        .custom-file-input:hover::before {
+          border-color: black;
+        }
+        .custom-file-input:active {
+          outline: 0;
+        }
+        .custom-file-input:active::before {
+          background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+        }
     </style>
 {% endblock %}
 {% block js %}
@@ -51,6 +79,11 @@
                 }
             });
         }
+        
+        
+        
+
+        
     </script>
 {% endblock %}
 
@@ -61,7 +94,7 @@
         <div class="auto-container">
             <div class="row clearfix">
                 <div class="col-lg-6 col-xs-12" style="position:absolute;bottom:30px;">
-                    <!--
+                    
                     <div class="proPic">
                         <a href="#">
 							{% if member.m_picture %}
@@ -74,7 +107,13 @@
                         </a>
 
                         {% if member.user == request.user %}
-							<!--<div class="redO"><a href="#" class="fa fa-camera"> Update Picture</a></div>
+							<div class="redO">
+                                
+                                <form id='upload_image' action="{% url 'upload_pic' %}" method="post" enctype="multipart/form-data">{% csrf_token %}                                        
+                                        <input id="id_image" type="file" class="custom-file-input" name="image">                                   
+                                </form>
+                            </div>
+                            
 							<h2> {{member.m_name}}</h2>
                         {% else %}
 							
@@ -92,7 +131,7 @@
                     </figure>
 
                 </div>
-                -->
+                
 
             </div>
         </div>
@@ -412,6 +451,12 @@
             </div>			
         </div>
     </div>    
+    <script>
+        $('#id_image').change(function(){
+            
+          $('#upload_image').submit();
+        });
+    </script>
     {% endblock %}
     
     

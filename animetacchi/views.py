@@ -26,6 +26,8 @@ from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.views import password_reset, password_reset_done, password_reset_confirm, password_reset_complete
+from django import forms
+
 
 
 import uuid
@@ -846,3 +848,21 @@ def request_edit(request):
 			requestedit.save()
 			return render_to_response('sort-comment.html',locals(),context_instance=RequestContext(request))
 
+
+class ImageUploadForm(forms.Form):
+    """Image upload form."""
+    image = forms.ImageField()
+    
+def upload_pic(request):
+    
+    if request.method == 'POST':
+        print('post')
+        form = ImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            print('valid')
+            user = User.objects.get(username=request.user.username)
+            members = Members.objects.get(user=user)
+            members.m_picture = form.cleaned_data['image']
+            members.save()
+            return HttpResponseRedirect(reverse('dashboard', kwargs={'username': request.user.username}))
+    return HttpResponseForbidden('allowed only via POST')
