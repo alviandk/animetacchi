@@ -35,7 +35,7 @@ class News(models.Model):
 
 
 class Members(models.Model):
-    user = models.ForeignKey(User)
+    user = models.OneToOneField(User,related_name='members')
     m_name = models.CharField(max_length=50, null=True)
     m_cover = models.ImageField(upload_to='MembersCover', null=True, blank=True)
     m_picture = models.ImageField(upload_to='MembersPicture', null=True, blank=True)

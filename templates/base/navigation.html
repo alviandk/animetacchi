@@ -21,8 +21,15 @@
                                 
                                 <li>{% if request.user.is_authenticated %}
 										<div class="nav-toggler">
-											<a href="#" class='dropdown-toggle' aria-haspopup="true" data-toggle="dropdown"><img
-											src="{{MEDIA_URL}}MembersPicture/pic.png" width="27" height="27" alt=""></a>
+											<a href="#" class='dropdown-toggle' aria-haspopup="true" data-toggle="dropdown">
+                                                
+                                                    {% if request.user.members.m_picture %}
+                                                        <img src="{{MEDIA_URL}}{{request.user.members.m_picture}}" width="27" height="27" alt="">
+                                                    {% else %}
+                                                        <img src="{{MEDIA_URL}}MembersPicture/pic.png" width="27" height="27" alt="">
+                                                    {% endif %}
+                                                
+                                            </a>
 											<ul class="dropdown-menu pull-right">
 												<li>
 													<a href="{% url 'users' request.user.username %}">User Profile</a>
