@@ -112,9 +112,8 @@
                                 <form id='upload_image' action="{% url 'upload_pic' %}" method="post" enctype="multipart/form-data">{% csrf_token %}                                        
                                         <input id="id_image" type="file" class="custom-file-input" name="image">                                   
                                 </form>
-                            </div>
-                            
-							<h2> {{member.m_name}}</h2>
+                            </div>                            
+							<h2 style="margin-top: -30px;"> {{member.m_name}}</h2>
                         {% else %}
 							
 							<h2> {{member.m_name}}</h2>
