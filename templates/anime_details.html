@@ -5,7 +5,7 @@
 
     <link href="{{ MEDIA_URL }}css/style2.css" rel="stylesheet">
     <link href="{{ MEDIA_URL }}css/bootstrap-reset.css" rel="stylesheet">
-    
+
 
     <link href="{{ MEDIA_URL }}css/style-responsive.css" rel="stylesheet" />
     <link href="{{ MEDIA_URL }}css/anime-style.css" rel="stylesheet" />
@@ -13,9 +13,9 @@
 {% endblock %}
 {% block js %}
 <script type="text/javascript">
-        
+
         function daikirai(anime_id){
-            
+
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -33,9 +33,9 @@
                 }
             });
         }
-		
+
 		function daisuki(anime_id){
-            
+
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -53,9 +53,9 @@
                 }
             });
         }
-        
+
         function watchlist(anime_id, status){
-            
+
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -68,15 +68,15 @@
                 },
                 success:function(response){
                     $('#watchlist').html(status+'<span class="caret"></span>');
-                    
+
                     $.notify("Added to your watchlist as "+ status, "default");
                     setTimeout('RedirectUpdate()', 2000);
                 }
             });
         }
-        
-        
-        
+
+
+
     </script>
 {% endblock %}
 
@@ -87,16 +87,16 @@
             {% if request.user.is_authenticated %}
             <div class="auto-container">
                 <div class="row clearfix">
-                    <div class="col-lg-6 col-xs-12" style="position:absolute;bottom:30px;">                        
+                    <div class="col-lg-6 col-xs-12" style="position:absolute;bottom:30px;">
                         <div style="top:5px; padding-left:15px;">
                             <!--<button class="btn" data-toggle="modal" data-target="#edit-page" style="opacity:0.8; color:white;">Edit this page</button>-->
-                        </div>                        
+                        </div>
                     </div>
                 </div>
             </div>
             {% endif %}
         </section>
-        
+
         <!-- Modal -->
         <div class="modal fade" id="edit-page" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -105,7 +105,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Edit Anime</h4>
               </div>
-              
+
               <div class="modal-body">
                 Synopsis
                 <textarea id="synopsis-edit" class="form-control" rows="7">{{i.a_synopsys}}</textarea>
@@ -118,14 +118,14 @@
                   <div class="form-group">
                     <label for="exampleInputEmail2">to</label>
                     <input id="end-edit" type="text" value="{{i.a_airedend|date:'SHORT_DATE_FORMAT'}}" class="form-control" id="exampleInputEmail2" placeholder="jane.doe@example.com">
-                  </div>                  
+                  </div>
                 </div>
-                
-                
-                
+
+
+
               </div>
               <div class="modal-footer">
-                <button id="request-edit" type="button" class="btn btn-default" data-dismiss="modal">Request edit</button>                
+                <button id="request-edit" type="button" class="btn btn-default" data-dismiss="modal">Request edit</button>
               </div>
             </div>
           </div>
@@ -168,16 +168,16 @@
                                                             {% for genre in i.a_genre.all %}
                                                                 <a href="#">{{genre.genre_type}}</a>
                                                             {% endfor %}
-                                                        </div>                                                                                  											                                                        
+                                                        </div>
                                                     </div>
                                                 </div>
-                                             {% if request.user.is_authenticated %}												 
-												 
+                                             {% if request.user.is_authenticated %}
+
 												{% get_rating_form for i as rating_form %}
 												<form id="rate-form">
 													{% csrf_token %}
 													{{ rating_form }}
-													
+
 												</form>
 												<div id="ratings-average">
 													{% get_rating_score for i as score %}
@@ -196,25 +196,25 @@
 													<ul role="menu" class="dropdown-menu">
 														<li><a href="#watchlist" onclick="watchlist({{i.id}},'Bliss')">Bliss</a></li>
 														<li><a href="#watchlist" onclick="watchlist({{i.id}},'Life')">Life</a></li>
-														<li><a href="#watchlist" onclick="watchlist({{i.id}},'Hope')">Hope</a></li>														
+														<li><a href="#watchlist" onclick="watchlist({{i.id}},'Hope')">Hope</a></li>
 														<li><a href="#watchlist" onclick="watchlist({{i.id}},'Agony')">Agony</a></li>
 													</ul>
 												</div><!--btn-group-->
-												<div class="btn-group">													
+												<div class="btn-group">
 													<button {% if daisuki %} style="display:none;" {% endif %}  id="daisuki" class="btn btn-info" onclick="daisuki({{i.id}})" type="button">
 														Add to Daisukilist </button>
 												</div><!--btn-group-->
-												
-												<div id="daikirai" class="btn-group">													
+
+												<div id="daikirai" class="btn-group">
 													<button {% if daikirai %} style="display:none;" {% endif %} class="btn btn-danger" onclick="daikirai({{i.id}})" type="button">
 														Add to Daikirailist </button>
 												</div><!--btn-group-->
 											{% endif %}
-												
+
                                             </div>
                                         </div>
                                     </div>
-                                
+
                                 </div>
                             </section>
                         </div>
@@ -227,15 +227,15 @@
 										<div class="inner-box">
 											<h3>Cast</h3><hr/>
 											<div class="row">
-											
-                                                {% for character in i.character_set.all %}                                                
+
+                                                {% for character in i.character_set.all %}
 													{% for voice in character.voicecharacter_set.all %}
 													<div class="col-md-4">
 														<strong>
 															<a href ="{% url 'anime_voice' id=voice.id %}">
 																{{voice}}
 															</a>
-														</strong> 
+														</strong>
 														<br> as <a href ="{% url 'anime_character' slug=i.slug id=character.id %}">
 														{{character.name}}</a>
 														{% if character.picture %}
@@ -243,7 +243,7 @@
 														{% else %}
 															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
 														{% endif %}
-													</div>           
+													</div>
 													{% empty %}
 													<div class="col-md-4">
 														<a href ="{% url 'anime_character' slug=i.slug id=character.id %}">
@@ -253,11 +253,11 @@
 														{% else %}
 															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
 														{% endif %}
-														
-													</div>           
+
+													</div>
 													{% endfor %}
-												{% endfor %}	 										
-											                                                                            
+												{% endfor %}
+
                                         </div>
                                      </div>
                                  </div>
@@ -272,7 +272,7 @@
 							Top Latest Comments
 							<div class="pull-right">
 								<a href="{% url 'anime_reviews' slug=i.slug %}">View All </a>
-								
+
                             </div>
                         </div>
                         <div id="panel-comments" class="panel-body">
@@ -286,7 +286,7 @@
 										<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
 									{% endif %}
 								</a>
-								
+
 								<div class="comment">
 									<div class="comment-author h6 no-m">
 										<a href="{% url 'users' username=review.user.user.username %}"><b>{{review.user.user.username}}</b></a>
@@ -298,25 +298,26 @@
 										{{review.comment}}
 									</p>
 
-									<p class="small">										
-										<a id="heart-{{review.id}}" class="mr10"><i class="fa fa-heart-o mr5"></i><span id="like-{{review.id}}">{{review.votes.count}} </span> Likes</a>										
+									<p class="small">
+										<a id="heart-{{review.id}}" class="mr10"><i class="fa fa-heart-o mr5"></i><span id="like-{{review.id}}">{{review.votes.count}} </span> Likes</a>
 									</p>
 									<script>
-										
-											$.get("{% url 'show_likes' entity='anime' id=review.id %}", function(data, status){						
-												
+
+
+											$.get("{% url 'show_likes' entity='anime' id=review.id %}", function(data, status){
+
 												if (data.voted){
-													$('#heart-{{review.id}}').addClass('text-danger');											
+													$('#heart-{{review.id}}').addClass('text-danger');
 												}
 											});
-										
+
 									</script>
 									<hr>
 								</div>
 							</div>
 							{% endfor %}
                             {% endif %}
-							
+
 							{% if request.user.is_authenticated %}
 								<form method="POST" action="{% url 'anime_reviews_add' slug=i.slug %}">
                                     <div class="form-group">
@@ -327,29 +328,29 @@
                                 </form>
                              {% endif %}
                         </div>
-                        
-                        
-                        
+
+
+
                     </section>
-                    
+
                 </div>
             </div>
         </div>
     </div>
 
-    
+
 	<script type="text/javascript">
         $(document).ready(function() {
 			$('#id_score').addClass('rating');
 			$('#id_score').attr('type', 'hidden');
 		});
-		
+
 		 $("#rate-form").click(function() {
                 rate();
           });
-          
+
           function rate(){
-            
+
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -366,7 +367,7 @@
                 },
                 success:function(response){
 					$.get("{% url 'ratings_average' entity='anime' id=i.id %}", function(data, status){
-						
+
 						$('#ratings-average').html(data)
 					});
                     $.notify("Rated "+ status, "default");
@@ -374,20 +375,20 @@
                 }
             });
         }
-        
+
         $("#panel-comments").on('click', 'a[id^=heart-]', function(){
 			var id = $(this).attr('id').split('-')[1];
 			$.ajax({
                 type: "POST",
                 cache: false,
                 url: "{% url 'likes' entity='anime' %}",
-                data: {					
+                data: {
 					'username': '{{request.user}}',
 					'id': id,
                     'csrfmiddlewaretoken': '{{csrf_token}}'
                 },
-                success:function(response){				
-					voted = response.voted 																
+                success:function(response){
+					voted = response.voted
                     $('#like-'+id).text(response.total_votes);
                     if (voted){
 						$('#heart-'+id).addClass('text-danger');
@@ -397,14 +398,14 @@
 						$('#heart-'+id).removeClass('text-danger');
 						$.notify("Unliked", "default");
 					}
-                    
+
                     setTimeout('RedirectUpdate()', 2000);
-                    
+
                 }
             });
-			
+
 		});
-        
+
         $("#request-edit").click(function() {
             synopsis=$('#synopsis-edit').val();
             start=$('#start-edit').val();
@@ -413,7 +414,7 @@
                 type: "POST",
                 cache: false,
                 url: "{% url 'request_edit' %}",
-                data: {					
+                data: {
 					'username': '{{request.user}}',
 					'anime_id': '{{i.id}}',
                     'synopsis': synopsis,
@@ -421,13 +422,19 @@
                     'end': end,
                     'csrfmiddlewaretoken': '{{csrf_token}}'
                 },
-                success:function(response){				
-					$.notify("Request sent", "default");					                    
+                success:function(response){
+					$.notify("Request sent", "default");
                     setTimeout('RedirectUpdate()', 2000);
                 }
             });
-            
+
           });
+                                            {% if not request.user.is_authenticated %}
+									            $('.mr10').click(function(){
+									                $.notify("Please login to like", "info");
+                                                    setTimeout('RedirectUpdate()', 500);
+									            })
+									        {% endif %}
 	</script>
 	{% endwith %}
 {% endblock %}

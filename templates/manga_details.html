@@ -13,10 +13,10 @@
 
 {% block js %}
 <script>
-        
-        
+
+
         function daikirai(manga_id){
-            
+
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -34,9 +34,9 @@
                 }
             });
         }
-		
+
 		function daisuki(manga_id){
-            
+
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -54,9 +54,9 @@
                 }
             });
         }
-        
+
         function readinglist(manga_id, status){
-            
+
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -69,14 +69,14 @@
                 },
                 success:function(response){
                     $('#readinglist').html(status+'<span class="caret"></span>');
-                    
+
                     $.notify("Added to your readinglist as "+ status, "default");
                     setTimeout('RedirectUpdate()', 2000);
                 }
             });
         }
-        
-        
+
+
     </script>
 
 
@@ -111,7 +111,7 @@
                                             <div class="inner-box">
                                                 <h3 class="anime-title"><a href="#">{{i.name}}</a></h3>
 
-                                                
+
                                                 <div class="description anime-desc" >
                                                     {{i.synopsys}}
                                                 </div>
@@ -124,16 +124,16 @@
                                                             {% for genre in i.genre.all %}
                                                                 <a href="#">{{genre.genre_type}}</a>
                                                             {% endfor %}
-                                                        </div>                                                                                  											                                                        
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 {% if request.user.is_authenticated %}
-                                                
+
 													{% get_rating_form for i as rating_form %}
 													<form id="rate-form">
 														{% csrf_token %}
 														{{ rating_form }}
-														
+
 													</form>
 													<div id="ratings-average">
 														{% get_rating_score for i as score %}
@@ -150,25 +150,25 @@
 														<ul role="menu" class="dropdown-menu">
 															<li><a href="#watchlist" onclick="readinglist({{i.id}},'Bliss')">Bliss</a></li>
 															<li><a href="#watchlist" onclick="readinglist({{i.id}},'Life')">Life</a></li>
-															<li><a href="#watchlist" onclick="readinglist({{i.id}},'Hope')">Hope</a></li>														
+															<li><a href="#watchlist" onclick="readinglist({{i.id}},'Hope')">Hope</a></li>
 															<li><a href="#watchlist" onclick="readinglist({{i.id}},'Agony')">Agony</a></li>
 														</ul>
 													</div><!--btn-group-->
-													<div class="btn-group">													
+													<div class="btn-group">
 														<button {% if daisuki %} style="display:none;" {% endif %}  id="daisuki" class="btn btn-info" onclick="daisuki({{i.id}})" type="button">
 															Add to Daisukilist </button>
 													</div><!--btn-group-->
-													
-													<div id="daikirai" class="btn-group">													
+
+													<div id="daikirai" class="btn-group">
 														<button {% if daikirai %} style="display:none;" {% endif %} class="btn btn-danger" onclick="daikirai({{i.id}})" type="button">
 															Add to Daikirailist </button>
 													</div><!--btn-group-->
 												{% endif %}
-												
+
                                             </div>
                                         </div>
                                     </div>
-                                
+
                                 </div>
                             </section>
                         </div>
@@ -181,14 +181,14 @@
 										<div class="inner-box">
 											<h3>Character</h3><hr/>
 											<div class="row">
-											
-                                                {% for character in i.charactermanga_set.all %}    
+
+                                                {% for character in i.charactermanga_set.all %}
                                                     {% if forloop.counter|divisibleby:4 %}
                                                     </div>
                                                     </br>
                                                     <div class="row">
                                                     {% endif %}
-													
+
 													<div class="col-md-4">
 														<a href ="{% url 'manga_character' slug=i.slug id=character.id %}">
 														{{character.name}}</a>
@@ -197,13 +197,13 @@
 														{% else %}
 															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
 														{% endif %}
-													</div>     
+													</div>
                                                     {% if forloop.counter|divisibleby:4 %}
-                                                        
-                                                    {% endif %}      
-													
-												{% endfor %}	 										
-											                                                                            
+
+                                                    {% endif %}
+
+												{% endfor %}
+
                                         </div>
                                      </div>
                                  </div>
@@ -217,7 +217,7 @@
                         <div class="panel-heading">
 							Top Latest Comments
 							<div class="pull-right">
-								<a href="{% url 'manga_reviews' slug=i.slug %}">View All </a>								
+								<a href="{% url 'manga_reviews' slug=i.slug %}">View All </a>
                             </div>
                         </div>
                         <div id="panel-comments" class="panel-body">
@@ -231,7 +231,7 @@
 										<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
 									{% endif %}
 								</a>
-								
+
 								<div class="comment">
 									<div class="comment-author h6 no-m">
 										<a href="{% url 'users' username=review.user.user.username %}"><b>{{review.user.user.username}}</b></a>
@@ -240,27 +240,27 @@
 									<p>
 										{{review.comment}}
 									</p>
-									
+
 									<p class="small">
-										<a id="heart-{{review.id}}" class="mr10"><i class="fa fa-heart-o mr5"></i><span id="like-{{review.id}}">{{review.votes.count}} </span> Likes</a>										
+										<a id="heart-{{review.id}}" class="mr10"><i class="fa fa-heart-o mr5"></i><span id="like-{{review.id}}">{{review.votes.count}} </span> Likes</a>
 									</p>
 									<script>
-										
-											$.get("{% url 'show_likes' entity='manga' id=review.id %}", function(data, status){						
-												
+
+											$.get("{% url 'show_likes' entity='manga' id=review.id %}", function(data, status){
+
 												if (data.voted){
-													$('#heart-{{review.id}}').addClass('text-danger');											
+													$('#heart-{{review.id}}').addClass('text-danger');
 												}
 											});
-										
+
 									</script>
 									<hr>
 								</div>
 							</div>
 							{% endfor %}
                             {% endif %}
-                            
-							{% if request.user.is_authenticated %}											
+
+							{% if request.user.is_authenticated %}
 
 								<form method="POST" action="{% url 'manga_reviews_add' slug=i.slug %}">
                                     <div class="form-group">
@@ -271,7 +271,7 @@
                                 </form>
                              {% endif %}
                         </div>
-                        
+
                     </section>
                 </div>
             </div>
@@ -282,13 +282,13 @@
 			$('#id_score').addClass('rating');
 			$('#id_score').attr('type', 'hidden');
 		});
-		
+
 		 $("#rate-form").click(function() {
                 rate();
           });
-          
+
           function rate(){
-            
+
             $.ajax({
                 type: "POST",
                 cache: false,
@@ -305,7 +305,7 @@
                 },
                 success:function(response){
 					$.get("{% url 'ratings_average' entity='manga' id=i.id %}", function(data, status){
-						
+
 						$('#ratings-average').html(data)
 					});
                     $.notify("Rated "+ status, "default");
@@ -313,20 +313,20 @@
                 }
             });
         }
-        
+
         $("#panel-comments").on('click', 'a[id^=heart-]', function(){
 			var id = $(this).attr('id').split('-')[1];
 			$.ajax({
                 type: "POST",
                 cache: false,
                 url: "{% url 'likes' entity='manga' %}",
-                data: {					
+                data: {
 					'username': '{{request.user}}',
 					'id': id,
                     'csrfmiddlewaretoken': '{{csrf_token}}'
                 },
-                success:function(response){				
-					voted = response.voted 																
+                success:function(response){
+					voted = response.voted
                     $('#like-'+id).text(response.total_votes);
                     if (voted){
 						$('#heart-'+id).addClass('text-danger');
@@ -336,16 +336,22 @@
 						$('#heart-'+id).removeClass('text-danger');
 						$.notify("Unliked", "default");
 					}
-                    
+
                     setTimeout('RedirectUpdate()', 2000);
-                    
+
                 }
             });
-			
+
 		});
+	                                    	{% if not request.user.is_authenticated %}
+									            $('.mr10').click(function(){
+									                $.notify("Please login to like", "info");
+                                                    setTimeout('RedirectUpdate()', 500);
+									            })
+									        {% endif %}
 	</script>
-	
-	
+
+
     {% endwith %}
 
 {% endblock %}
