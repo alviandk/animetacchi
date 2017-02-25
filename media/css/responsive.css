@@ -130,8 +130,6 @@
 	}
 	
 	.main-menu{
-		float:none;
-		top:10px;
 		padding-top:0px;
 		z-index:5;
 		padding-bottom:0px;
@@ -391,8 +389,9 @@
 	
 	.main-header.sticky-header{
 		position:relative;
-		background:#353535;
+		background:#16222e;
 		top:0px;	
+		height: 57px;
 	}
 	
 	.main-header.sticky-header.fixed-header{

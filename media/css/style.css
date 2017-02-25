@@ -1034,14 +1034,31 @@ ul,li{
 }
 
 .main-header .header-lower .logo{
-	position:relative;
+	position:absolute;
 	float:left;
+	top:16px;
 	padding:10px 0px;
 	transition:all 500ms ease;
 	-moz-transition:all 500ms ease;
 	-webkit-transition:all 500ms ease;
 	-ms-transition:all 500ms ease;
 	-o-transition:all 500ms ease;
+}
+@media screen and (max-width:1200px){
+.main-header .header-lower .logo{
+	top:-10px;
+}
+}
+@media screen and (max-width:599px){
+.main-header.sticky-header{
+		position:relative;
+		background:#16222e;
+		top:0px;	
+		height: 57px;
+	}
+}
+.main-header .header-lower .logo a{
+	color:#ffffff ;
 }
 
 .fixed-header .header-lower .logo{
@@ -1094,7 +1111,11 @@ ul,li{
 	-ms-transition:all 500ms ease;
 	-o-transition:all 500ms ease;
 }
-
+@media screen and (max-width:1200px){
+	.main-menu .navigation > li > a{
+		padding:10px 0px 10px 0px;
+	}
+}
 .main-menu .navigation > li.dropdown > a{
 	padding-right:20px;	
 }
@@ -1115,7 +1136,12 @@ ul,li{
 	padding-top:30px;
 	padding-bottom:30px;	
 }
-
+@media screen and (max-width:1200px){
+.fixed-header .main-menu .navigation > li > a{
+	padding-top:10px;
+	padding-bottom:10px;	
+}
+}
 .main-menu .navigation > li:hover > a,
 .main-menu .navigation > li.current > a,
 .main-menu .navigation > li.current-menu-item > a{
