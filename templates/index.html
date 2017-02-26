@@ -7,7 +7,7 @@
     <link href="{{ MEDIA_URL }}css/bootstrap.css" rel="stylesheet">
     <link href="{{ MEDIA_URL }}css/revolution-slider.css" rel="stylesheet">
     <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet">
-    <link href="{{ MEDIA_URL }}css/menu.css" rel="stylesheet">
+    <!--<link href="{{ MEDIA_URL }}css/menu.css" rel="stylesheet">-->
     <!-- Responsive -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -58,9 +58,8 @@
 						<div class="logo"><a href="{% url 'home' %}"><span><h3>Animetacchi</h3></span></a></div>
 						<div id="head-mobile"></div>
 						<div class="button"></div>
-                        <div class="navbar-collapse collapse clearfix">
-                            {% include 'base/navigation.html' %}
-                        </div>
+                        {% include 'base/navigation.html' %}
+                        
                     </nav><!-- Main Menu End-->
                     
                 </div>
