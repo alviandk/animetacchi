@@ -7,6 +7,7 @@
 <link href="{{ MEDIA_URL }}css/bootstrap.css" rel="stylesheet">
 <link href="{{ MEDIA_URL }}css/revolution-slider.css" rel="stylesheet">
 <link href="{{ MEDIA_URL }}css/style.css" rel="stylesheet">
+<link href="{{ MEDIA_URL }}css/freelancer.min.css" rel="stylesheet">
 <!-- Responsive -->
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -29,45 +30,40 @@
     <!-- Preloader -->
     <div class="preloader"></div>
 
+    <nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" style="height: 44px;">
+                    <span class="sr-only">Toggle navigation</span><i class="fa fa-bars" style="font-size: 20px;margin-top: 5px;"></i>
+                </button>
+                <a class="navbar-brand" href="{% url 'home' %}">Animetacchi</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                {% include 'base/navigation.html' %}
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
     <!-- Main Header / Sticky Header-->
     <header class="main-header sticky-header">
-
+        
         <!-- Header Lower -->
         <div class="header-lower">
-
+            	
                 <!--Outer Box-->
                 <div class="outer-box clearfix">
-
-                    <!-- Logo -->
-                    <!-- Logo -->
-                    <div style="position:absolute;padding-top:15px;">
-                        <a href="{% url 'home' %}"><span><h3 style="color:#fff;line-height:1em;">Animetacchi</h3></span></a>
-                    </div>
-
-                    <!--Search Btn
-                    <div class="search-box-btn"><span class="icon fa fa-search"></span></div>
-					-->
-                    <!-- Main Menu -->
-                    <nav class="main-menu">
-
-                        <div class="navbar-header">
-                            <!-- Toggle Button -->
-                            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                        </div>
-
-                        <div class="navbar-collapse collapse clearfix">
-                            {% include 'base/navigation.html' %}
-                        </div>
-                    </nav><!-- Main Menu End-->
-
+    
+                    
                 </div>
         </div><!-- Header Lower End-->
-
+        
     </header><!--End Main Header -->
+
 
     {% block body %}
     {% endblock %}

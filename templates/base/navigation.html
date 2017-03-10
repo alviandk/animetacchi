@@ -1,4 +1,4 @@
-						<ul class="navigation">                                
+						<ul class="nav navbar-nav navbar-right">                                
                                 
                                 <li {% if 'anime' in request.META.PATH_INFO %} class="current" {% endif %}>
                                         <a href="{% url 'anime' %}">Anime</a>
@@ -8,8 +8,8 @@
                                 </li>                                
                                 <li class="dropdown" {% if 'chart' in request.META.PATH_INFO %} class="current" {% endif %}>
 									
-									<a href="#"  class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Chart</a>
-									<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<a href="#"  class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">Chart<b class="caret"></b></a>
+									<ul class="dropdown-menu season" aria-labelledby="dropdownMenu1">
 										<li><a href="{% url 'anime_chart' season='winter' %}">Winter</a></li>
 										<li><a href="{% url 'anime_chart' season='spring' %}">Spring</a></li>
 										<li><a href="{% url 'anime_chart' season='summer' %}">Summer</a></li>
@@ -30,7 +30,7 @@
                                                     {% endif %}
                                                 
                                             </a>
-											<ul class="dropdown-menu pull-right">
+											<ul class="dropdown-menu">
 												<li>
 													<a href="{% url 'users' request.user.username %}">User Profile</a>
 												</li>
