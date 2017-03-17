@@ -97,11 +97,11 @@
                         <div class="col-md-12">
                             <section class="panel">
                                 <div class="panel-body">
-                                    <div class="col-md-4 col-sm-6 col-xs-12" style="margin:-5px 0 0 -20px;">
+                                    <div class="col-md-4 col-sm-6 col-xs-12" style="padding-bottom: 15px;">
                                         <!--Image-->
                                         <figure class="image">
                                             <a href="#" class="lightbox-image"
-                                               title="Awsome Title Here"><img src="{{ MEDIA_URL }}{{i.displaypic}}" alt="" width="215" height="311" style="border-radius:5px;"></a>
+                                               title="Awsome Title Here"><img class="img-responsive img-center" src="{{ MEDIA_URL }}{{i.displaypic}}" alt="" width="215" height="311" style="border-radius:5px;"></a>
                                         </figure>
                                     </div>
 
@@ -189,13 +189,13 @@
                                                     <div class="row">
                                                     {% endif %}
 
-													<div class="col-md-4">
-														<a href ="{% url 'manga_character' slug=i.slug id=character.id %}">
-														{{character.name}}</a>
+													<div class="col-md-4 col-xs-4 col-sm-4 text-center"  style="margin-bottom: 30px;">
+														<h6 style="margin-bottom: 11px;"><a href ="{% url 'manga_character' slug=i.slug id=character.id %}">
+														{{character.name}}</a></h6>
 														{% if character.picture %}
-															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}{{character.picture}}" alt="">
+															<img class="media-object avatar avatar-sm img-responsive img-center" src="{{ MEDIA_URL }}{{character.picture}}" alt="">
 														{% else %}
-															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
+															<img class="media-object avatar avatar-sm img-responsive img-center" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
 														{% endif %}
 													</div>
                                                     {% if forloop.counter|divisibleby:4 %}

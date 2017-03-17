@@ -1,11 +1,13 @@
 {% extends 'base_menu.html' %}
 
 {% block css %}
+	<link href="{{ MEDIA_URL }}css/bootstrap.css" rel="stylesheet">
+	<link href="{{ MEDIA_URL }}css/freelancer.min.css" rel="stylesheet">
+    <link href="{{ MEDIA_URL }}css/shop-homepage.css" rel="stylesheet">
     <link href="{{ MEDIA_URL }}css/nouislider.css" rel="stylesheet">
     <link href="{{ MEDIA_URL }}css/nouislider.pips.css" rel="stylesheet">
     <link href="{{ MEDIA_URL }}css/bootstrap-reset.css" rel="stylesheet">
-	<link href="{{ MEDIA_URL }}css/freelancer.min.css" rel="stylesheet">
-    <link href="{{ MEDIA_URL }}css/bootstrap.min.css" rel="stylesheet">
+	
     <style>
         .anime-title:after {
             content: '';
@@ -77,11 +79,6 @@
         }
     </script>
 {% endblock %}
-                    {% block logo %}
-                    <div style="position:absolute;padding-top:20px;">
-                        <a href="{% url 'home' %}"><span><h3 style="color:#fff;">Animetacchi</h3></span></a>
-                    </div>
-                    {% endblock %}
 {% block body%}
     
     <div class="sidebar-page shop-page">
@@ -89,86 +86,8 @@
         <div class="auto-container">
     		
             <div class="row clearfix">
-            	
-                <!--Left Content-->
-            	<div class="col-lg-9 col-md-8 col-sm-6 col-xs-12 pull-right">
-                
-                	<!--Products Section-->
-                    <section class="products-section">
-
-                        <div class="shop-filters category-filters">
-                            <div class="clearfix">
-                                <!--Filter Outer-->
-                                <div class="col-lg-10 col-md-6 col-sm-6 col-xs-12 pull-left">
-                                    <div class="anime-title">
-                                        <h3>Anime</h3>
-                                    </div>
-                                </div>
-                                <!--<div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 pull-right pull-bottom">
-                                    <div class="btn-group" style="margin-top:20px;">
-                                            <button type="button" class="btn btn-default filter-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> GENDER :  <span class="filter-val">MALE</span> &ensp;<span class="fa fa-angle-down"></span></button>
-                                            <ul class="dropdown-menu" id="dropDownId">
-                                                <li><a href="#">Male</a></li>
-                                                <li><a href="#">Female</a></li>
-                                                <li><a href="#">All</a></li>
-                                            </ul>
-                                        </div>
-                                </div>-->
-
-                            </div>
-                        </div>
-                        <div id="anime_data">
-                            <div class="row clearfix">
-                                {% for i in anime_data %}
-
-                                <!--Column-->
-                                <article class="product-item col-lg-2 col-md-6 col-sm-12 col-xs-12">
-                                    <div class="inner-box tooltips" style="width:129;height:187px;"
-                                         data-toggle="tooltip" data-placement="top" title="{{i.a_name}}">
-                                        <figure class="image" style="border-radius:5px;"><a href="{% url 'anime_details' slug=i.slug %}"><img
-                                                src="{{ MEDIA_URL }}{{i.a_displaypic}}" alt=""></a>
-                                            <div class="product-content"
-                                                 style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
-                                                <a href="{% url 'anime_details' slug=i.slug %}">{{i.a_name}}</a></div>
-                                        </figure>
-
-
-                                    </div>
-                                </article>
-                                {% endfor %}
-
-                            </div>
-
-                            <!-- Centered Pagination -->
-                            <div class="centered-pagination text-left">
-                                <ul>
-                                    {% for i in paginator.page_range %}
-                                        <li><a {% if i == number %}class="active"{% endif%} onclick="reloadajax('{{i}}')" href="#">{{i}}</a></li>
-                                    {% endfor %}
-                                    {% if current_page.has_next %}
-                                        <li><a onclick="reloadajax('{{current_page.next_page_number}}')" href="#">&raquo;</a></li>
-                                    {% else %}
-                                        <li class="disabled"><a href="#">&raquo;</a> </li>
-                                    {% endif %}
-                                    <!--<a href="#" class="active">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#">....</a></li>
-                                    <li><a href="#">10</a></li>
-                                    <li><a href="#">11</a></li>
-                                    <li><a href="#">12</a></li>-->
-
-                                </ul>
-                            </div>
-                        </div>
-                        
-                    </section>
-                    
-                </div><!--End Left Content-->
-                
-                
-                <!--Sidebar-->	
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 pull-left">
+            	<!--Sidebar-->	
+                <div class="col-md-3 pull-left">
                     <aside class="sidebar">
                     
                         <!-- Search Form -->
@@ -185,7 +104,7 @@
                             <div class="sidebar-title"><h3>Genre</h3></div>
                             <div class="row clearfix">
                                 {% for i in genre %}
-                                <div class="col-lg-6 col-md-12 col-sm-12 column">
+                                <div class="col-xs-6 column">
                                     <div class="check-item"><input onclick="checkbox()" name="animes_check" type="checkbox" id="{{i.genre_type}}" value="{{i.id}}"><label
                                             class="checkbox-label" for="{{i.genre_type}}" style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;"><span class="icon-box"><span
                                             class="uncheck"></span> <span class="fa fa-check check"></span></span>{{i.genre_type}}</label>
@@ -202,7 +121,103 @@
                     
                 </div>
                 <!--Sidebar-->
+                <!--Left Content-->
+                <div class="col-md-9">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="anime-title" style="margin-bottom: 20px;">
+								<h3>Anime</h3>
+							</div>
+						</div>
+					</div>
+					<div class="row equal-height"  style="margin-top: 40px;"><!--Anime List-->
+						{% for i in anime_data %}
+						<div class="col-sm-2 col-lg-2 col-md-2">
+							<div class="thumbnail">
+								<a href="{% url 'anime_details' slug=i.slug %}"><img src="{{ MEDIA_URL }}{{i.a_displaypic}}" alt=""></a>
+								<div class="caption">
+									<h6 class="text-center"><a href="{% url 'anime_details' slug=i.slug %}">{{i.a_name}}</a></h6>
+								</div>
+							</div>
+						</div>	
+						{% endfor %}					
+					</div><!--End of Anime List Section-->
+					<!-- Centered Pagination -->
+                        <div class="centered-pagination text-left">
+							<ul>
+								{% for i in paginator.page_range %}
+									<li><a {% if i == number %}class="active"{% endif%} onclick="reloadajax('{{i}}')" href="#">{{i}}</a></li>
+                                {% endfor %}
+                                {% if current_page.has_next %}
+                                    <li><a onclick="reloadajax('{{current_page.next_page_number}}')" href="#">&raquo;</a></li>
+                                {% else %}
+                                    <li class="disabled"><a href="#">&raquo;</a> </li>
+                                {% endif %}
+                                    <!--<a href="#" class="active">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">....</a></li>
+                                    <li><a href="#">10</a></li>
+                                    <li><a href="#">11</a></li>
+                                    <li><a href="#">12</a></li>-->
+							</ul>
+                       </div>
+				</div>
+            	<!--<div class="col-md-9 pull-right">
                 
+                	<!--Products Section
+                    <section class="products-section">
+
+                        <div class="shop-filters category-filters">
+                            <div class="clearfix">
+                                <!--Filter Outer
+                                <div class="col-lg-10 col-md-6 col-sm-6 col-xs-12 pull-left">
+                                    <div class="anime-title">
+                                        <h3>Anime</h3>
+                                    </div>
+                                </div>
+                                <!--<div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 pull-right pull-bottom">
+                                    <div class="btn-group" style="margin-top:20px;">
+                                            <button type="button" class="btn btn-default filter-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> GENDER :  <span class="filter-val">MALE</span> &ensp;<span class="fa fa-angle-down"></span></button>
+                                            <ul class="dropdown-menu" id="dropDownId">
+                                                <li><a href="#">Male</a></li>
+                                                <li><a href="#">Female</a></li>
+                                                <li><a href="#">All</a></li>
+                                            </ul>
+                                        </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div id="anime_data">
+                            <div class="row clearfix">
+                                {% for i in anime_data %}
+
+                                <!--Column
+                                <article class="product-item col-lg-2 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="inner-box tooltips" style="width:129;height:187px;"
+                                         data-toggle="tooltip" data-placement="top" title="{{i.a_name}}">
+                                        <figure class="image" style="border-radius:5px;">
+											<a href="{% url 'anime_details' slug=i.slug %}"><img src="{{ MEDIA_URL }}{{i.a_displaypic}}" alt=""></a>
+                                            <div class="product-content"
+                                                 style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">
+                                                <a href="{% url 'anime_details' slug=i.slug %}">{{i.a_name}}</a>
+                                            </div>
+                                        </figure>
+
+
+                                    </div>
+                                </article>
+                                {% endfor %}
+
+                            </div>
+
+                            
+                        </div>
+                        
+                    </section>
+                    
+                </div><!--End Left Content-->
             </div>
         </div>
     

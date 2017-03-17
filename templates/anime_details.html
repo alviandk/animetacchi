@@ -140,11 +140,11 @@
                         <div class="col-md-12">
                             <section class="panel">
                                 <div class="panel-body">
-                                    <div class="col-md-4 col-sm-6 col-xs-12" style="margin:-5px 0 0 -20px;">
+                                    <div class="col-md-4 col-sm-6 col-xs-12"  style="padding-bottom: 15px;">
                                         <!--Image-->
                                         <figure class="image">
                                             <a href="#" class="lightbox-image"
-                                               title="{{i.a_name}}"><img src="{{ MEDIA_URL }}{{i.a_displaypic}}" alt="" width="215" height="311" style="border-radius:5px;"></a>
+                                               title="{{i.a_name}}"><img  class="img-responsive img-center" src="{{ MEDIA_URL }}{{i.a_displaypic}}" alt="" width="215" height="311" style="border-radius:5px;"></a>
                                         </figure>
                                     </div>
 
@@ -230,28 +230,28 @@
 
                                                 {% for character in i.character_set.all %}
 													{% for voice in character.voicecharacter_set.all %}
-													<div class="col-md-4">
+													<div class="col-md-4 col-xs-4 col-sm-4 text-center"  style="margin-bottom: 30px;">
 														<strong>
 															<a href ="{% url 'anime_voice' id=voice.id %}">
 																{{voice}}
 															</a>
 														</strong>
-														<br> as <a href ="{% url 'anime_character' slug=i.slug id=character.id %}">
-														{{character.name}}</a>
+														<br> as <h6><a href ="{% url 'anime_character' slug=i.slug id=character.id %}">
+														{{character.name}}</a></h6>
 														{% if character.picture %}
-															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}{{character.picture}}" alt="">
+															<img class="media-object avatar avatar-sm img-responsive img-center" src="{{ MEDIA_URL }}{{character.picture}}" alt="">
 														{% else %}
-															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
+															<img class="media-object avatar avatar-sm img-responsive img-center" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
 														{% endif %}
 													</div>
 													{% empty %}
-													<div class="col-md-4">
-														<a href ="{% url 'anime_character' slug=i.slug id=character.id %}">
-														{{character.name}}</a>
+													<div class="col-md-4 col-xs-4 col-sm-4 text-center"  style="margin-bottom: 30px;">
+														<h6><a href ="{% url 'anime_character' slug=i.slug id=character.id %}">
+														{{character.name}}</a></h6>
 														{% if character.picture %}
-															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}{{character.picture}}" alt="">
+															<img class="media-object avatar avatar-sm img-responsive img-center" src="{{ MEDIA_URL }}{{character.picture}}" alt="">
 														{% else %}
-															<img class="media-object avatar avatar-sm" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
+															<img class="media-object avatar avatar-sm img-responsive img-center" src="{{ MEDIA_URL }}MembersPicture/pic.png" alt="">
 														{% endif %}
 
 													</div>

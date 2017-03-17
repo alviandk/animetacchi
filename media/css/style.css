@@ -7251,9 +7251,13 @@ ul,li{
 .shop-page{
 	position:relative;
 	padding:70px 0px 70px;
-	top: 55px; 
 }
- 
+ @media (max-width:767px){
+.shop-page {
+    position: relative;
+    padding: 20px 0px 70px;
+}
+}
 .shop-filters{
 	position:relative;
 	margin-bottom:40px;
@@ -8102,3 +8106,35 @@ ul,li{
 .navbar-custom .navbar-nav .season li a {
 	color:#2c4057;
 }
+.row.equal-height {
+    display: flex;
+    flex-wrap: wrap;
+}
+.row.equal-height > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+.row.equal-height.row:after,
+.row.equal-height.row:before {
+    display: flex;
+}
+.row.equal-height > [class*='col-'] > .thumbnail,
+.row.equal-height > [class*='col-'] > .thumbnail > .caption {
+    display: flex;
+    flex: 1 0 auto;
+    flex-direction: column;
+}
+.row.equal-height > [class*='col-'] > .thumbnail > .caption > .flex-text {
+    flex-grow: 1;
+}
+.row.equal-height > [class*='col-'] > .thumbnail > img {
+    width: 100%;
+    height: 200px; /* force image's height */
+   /* force image fit inside it's "box" */
+    -webkit-object-fit: cover;
+    -moz-object-fit: cover;
+    -ms-object-fit: cover;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+.img-center {margin:0 auto;}
