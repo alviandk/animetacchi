@@ -19,18 +19,20 @@
                                     
                                 </li>                                
                                 
-                                <li>{% if request.user.is_authenticated %}
+                                <li class="dropdown">{% if request.user.is_authenticated %}
 										<div class="nav-toggler">
-											<a href="#" class='dropdown-toggle' aria-haspopup="true" data-toggle="dropdown">
+											<a href="#" class='user-account dropdown-toggle' aria-haspopup="true" data-toggle="dropdown">
                                                 
                                                     {% if request.user.members.m_picture %}
-                                                        <img src="{{MEDIA_URL}}{{request.user.members.m_picture}}" width="27" height="27" alt="">
+                                                        <img src="{{MEDIA_URL}}{{request.user.members.m_picture}}" class="img-circle user-nav-img" width="50" height="50" alt="">
+                                                        <strong class="username">{{request.user.username}}</strong>
+														<i class="fa fa-chevron-down"></i>
                                                     {% else %}
-                                                        <img src="{{MEDIA_URL}}MembersPicture/pic.png" width="27" height="27" alt="">
+                                                        <img src="{{MEDIA_URL}}MembersPicture/pic.png" class="img-circle user-nav-img" width="50" height="50" alt="">
                                                     {% endif %}
                                                 
                                             </a>
-											<ul class="dropdown-menu">
+											<ul class="dropdown-menu season">
 												<li>
 													<a href="{% url 'users' request.user.username %}">User Profile</a>
 												</li>
@@ -42,6 +44,7 @@
 												</li>
 											</ul>
 										</div>
+								</li>
 									{% else %}
 									<li>
 										<a href="{% url 'signin' %}">Login</a>
@@ -50,5 +53,4 @@
 										<a href="{% url 'signup' %}">Sign up</a>
 									</li>
 									{% endif %}
-								</li>
                             </ul>

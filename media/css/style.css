@@ -7489,9 +7489,9 @@ ul,li{
 	background:#f1f1f1;
 }
 
-.open>.dropdown-menu{
+/*.open>.dropdown-menu{
 	min-width:100%;
-}
+}*/
 
 /*** 
 
@@ -8138,3 +8138,98 @@ ul,li{
     object-fit: cover;
 }
 .img-center {margin:0 auto;}
+.user-nav-img{border-radius: 50%!important;}
+.img-circle{
+	border: 3px solid #11c3f0!important;
+    border-radius: 50%!important;
+    width: 56px;
+    height: 56px;
+    margin-left: 15px;
+}
+.nav .open>a.user-account{
+    background-color: rgba(238, 238, 238, 0);}
+.username{
+	margin-left: 5px;
+    margin-right: 5px;
+}
+.nav-toggler.open{
+		background-color: #ff5412;
+		padding-right: 15px;
+}
+@media (max-width:768px){
+	.nav-toggler.open{
+		background-color: #ff5412;
+		padding-right:0;		
+	}
+	.anime-title:after {
+		content: ''!important;
+		position: absolute!important;
+		left: 15px!important;
+		bottom: -25px!important;
+		width: 82px!important;
+		height: 4px!important;
+		background: #11c3f0!important;
+	}
+	.manga-title:after {
+		content: ''!important;
+		position: absolute!important;
+		left: 15px!important;
+		bottom: -25px!important;
+		width: 95px!important;
+		height: 4px!important;
+		background: #11c3f0!important;
+	}
+	.chart-title:after {
+		content: ''!important;
+		position: absolute!important;
+		left: 15px!important;
+		bottom: 0!important;
+		width: 82px!important;
+		height: 4px!important;
+		background: #11c3f0!important;
+	}
+}
+.anime-title:after {
+    content: ''!important;
+    position: absolute!important;
+    left: 15px!important;
+    bottom: -4px;
+    width: 82px!important;
+    height: 4px!important;
+    background: #11c3f0!important;
+}
+.manga-title:after {
+    content: ''!important;
+    position: absolute!important;
+    left: 15px!important;
+    bottom: -4px;
+    width: 95px!important;
+    height: 4px!important;
+    background: #11c3f0!important;
+}
+.chart-title:after {
+    content: ''!important;
+    position: absolute!important;
+    left: 15px!important;
+    bottom: -4px;
+    width: 82px!important;
+    height: 4px!important;
+    background: #11c3f0!important;
+}
+.nav-toggler.open .username,  .nav-toggler.open .fa-chevron-down{
+	color: #555;
+}
+.panel-heading.daisuki {
+    border-color: #eff2f7;
+    font-size: 13px;
+    font-weight: 400;
+    background: #2c3e50;
+    text-transform: uppercase;
+    padding: 15px;
+}
+.row.chart {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: 19px!important;
+    margin-right: 19px!important;
+}

@@ -132,7 +132,7 @@
 					</div>
 					<div class="row equal-height"  style="margin-top: 40px;"><!--Anime List-->
 						{% for i in anime_data %}
-						<div class="col-sm-2 col-lg-2 col-md-2">
+						<div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
 							<div class="thumbnail">
 								<a href="{% url 'anime_details' slug=i.slug %}"><img src="{{ MEDIA_URL }}{{i.a_displaypic}}" alt=""></a>
 								<div class="caption">
