@@ -22,7 +22,7 @@
                             <section class="panel">
                                 <header class="panel-heading">
                                     <div class="default-title">
-										<span role="presentation" class="dropdown"> 
+										<span role="presentation" class="dropdown col-xs-6 col-sm-6 col-lg-3"> 
 											<a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown" 
 												role="button" aria-haspopup="true" aria-expanded="false"> 
 												{% block caret %} Anime Library {% endblock %}<span class="caret"></span> 
@@ -37,13 +37,13 @@
                                         {% block share %}
                                             {% if request.user.is_authenticated %}
                                                 <a onclick="return popitup('https://www.facebook.com/sharer/sharer.php?u=http%3A//{{host|urlencode}}/users/{{request.user.username}}/library/')" >
-                                                    <button class="btn btn-info">Share to Facebook</button>
+                                                    <button class="btn btn-info col-xs-6 col-sm-6 col-lg-2">Share to Facebook</button>
                                                 </a>
                                             {% endif %}
                                         {% endblock %}
 									
 										
-                                <span class="tools pull-right">
+                                <span class="tools pull-right col-xs-12 col-sm-12 col-lg-4">
                                     
 									<div class="btn-row">						
 										<div class="btn-group nav-tabs" role="tablist" data-toggle="buttons">
@@ -97,7 +97,7 @@
 							{% block panel %}
                                 <div class="panel-body tab-content">
                                     											
-									<div class="table-responsive tab-pane active" id="all" role="tabpanel">
+									<div class="table-responsive tab-pane active col-lg-12" id="all" role="tabpanel">
 										<table class="table"> 
 											<thead> 
 												<tr> 

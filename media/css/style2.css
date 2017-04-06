@@ -3807,7 +3807,7 @@ span.customSelect.changed {
 /*collapsible*/
 .tools a {
     margin-left:10px;
-    color:#a7a7a7;
+    color:#2c3e50;
     font-size: 12px;
 }
 /* google maps */
@@ -5750,4 +5750,11 @@ right: -1px;
 
 .sortable{
     min-height: 400px;;
+}
+
+@media (max-width:1200px){
+	.btn-row{
+		margin-bottom: 10px;
+		margin-top: 15px;
+	}
 }
