@@ -79,26 +79,26 @@
     </script>
 {% endblock %}
 {% block body%}
-    
+
     <div class="sidebar-page shop-page">
-    	
+
         <div class="auto-container">
-    		
+
             <div class="row clearfix">
-            	<!--Sidebar-->	
-                <div class="col-md-3 pull-left">
+            	<!--Sidebar-->
+                <!-- <div class="col-md-3 pull-left">
                     <aside class="sidebar">
-                    
-                        <!-- Search Form -->
+
+
                         <div class="widget search-form">
                                 <div class="form-group">
                                     <input type="search" name="search" placeholder="search for something">
                                     <button onclick="search()" name="submit"><span class="fa fa-search"></span></button>
                                 </div>
-                            
+
                         </div>
-                        
-                        <!-- Choose Brand -->
+
+
                         <div class="widget choose-brand checkbox-filters two-column wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
                             <div class="sidebar-title"><h3>Genre</h3></div>
                             <div class="row clearfix">
@@ -112,16 +112,16 @@
                                 </div>
                                 {% endfor %}
                             </div>
-                            
+
                         </div>
 
                     </aside>
-                
-                    
-                </div>
+
+
+                </div> -->
                 <!--Sidebar-->
                 <!--Left Content-->
-            	<div class="col-md-9 pull-right">
+            	<div class="col-md-12 pull-right">
                 <div class="row">
 						<div class="col-md-12">
 							<div class="manga-title" style="margin-bottom: 20px;">
@@ -133,13 +133,15 @@
 						{% for i in manga_data %}
 						<div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
 							<div class="thumbnail">
-								<a href="{% url 'manga_details' slug=i.slug %}"><img src="{{ MEDIA_URL }}{{i.displaypic}}" alt=""></a>
+                <div style="height:260px">
+								    <a href="{% url 'manga_details' slug=i.slug %}"><img src="{{ MEDIA_URL }}{{i.displaypic}}" style="height:250px" alt=""></a>
+                </div>
 								<div class="caption">
 									<h6 class="text-center"><a href="{% url 'manga_details' slug=i.slug %}">{{i.name}}</a></h6>
 								</div>
 							</div>
-						</div>	
-						{% endfor %}					
+						</div>
+						{% endfor %}
 					</div><!--End of Anime List Section-->
 					<!-- Centered Pagination -->
                         <div class="centered-pagination text-left">
@@ -161,11 +163,11 @@
                                     <li><a href="#">12</a></li>-->
 							</ul>
                        </div>
-                	
+
                 </div><!--End Left Content-->
             </div>
         </div>
-    
+
     </div>
-    
+
 {% endblock %}
