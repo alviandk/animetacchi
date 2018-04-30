@@ -14,7 +14,7 @@ Some of features are including:
 - User Dashboard
 
 Home
-![](img/1 home.png)
+![](img/1home.png)
 
 User Signup
 ![](img/5 signup.png)
