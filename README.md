@@ -13,25 +13,25 @@ Some of features are including:
 - Login and Signup
 - User Dashboard
 
-Home
+## Home
 ![](img/1_home.png)
 
-User Signup
+## User Signup
 ![](img/5_signup.png)
 
-User Login
+## User Login
 ![](img/4_login.png)
 
-User Explore on Anime List or Season Chart
+## User Explore on Anime List or Season Chart
 ![](img/2_anime_list.png)
 ![](img/3_chart.png)
 
-User Explore on Anime Detail
+## User Explore on Anime Detail
 ![](img/2b_anime_detail.png)
 
-User can create a comment and like on another user's comment.
+## User can create a comment and like on another user's comment.
 ![](img/2d_comments.png)
 
-There will be feed on the user feed and library.
+## There will be feed on the user feed and library.
 ![](img/4b_dashboard_profile.png)
 ![](img/4c_dashboard_library.png)
