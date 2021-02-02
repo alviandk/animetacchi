@@ -57,7 +57,7 @@ restclient==0.11.0
 simple-translation==0.8.6
 simplejson==2.0.0
 six==1.10.0
-tablib==0.10.0
+tablib==0.11.5
 whois==0.7
 wsgiref==0.1.2
 xhtml2pdf==0.0.6
